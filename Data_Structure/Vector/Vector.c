@@ -90,5 +90,6 @@ int main() {
     output(vec);
     printf("\n");
   }
+  clear(vec);  
   return 0;
 }
