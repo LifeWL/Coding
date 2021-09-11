@@ -7,7 +7,8 @@ typedef struct Node {
 } Node;
 
 Node _NIL, *NIL = &_NIL;
-__arrtibute__((constructor))
+
+__attribute__((constructor))
 void init_NIL(){
     NIL->key = 0;
     NIL->h =0;
@@ -18,7 +19,7 @@ void init_NIL(){
 Node *getNewNode(int key) {
     Node *p = (Node *)malloc(sizeof(Node));
     p->key = key;
-    p->lchild = p->rchild = NULL;
+    p->lchild = p->rchild = NIL;
     p->h = 1;
     return p;
 }
@@ -34,6 +35,15 @@ Node *left_rotate(Node *root) {
     Node *temp = root->rchild;
     root->rchild = temp->lchild;
     temp->lchild = root;
+    UpdateHeight(root);
+    UpdateHeight(temp);
+    return temp;
+}
+
+Node *right_rotate(Node *root) {
+    Node *temp = root->lchild;
+    root->lchild = temp->rchild;
+    temp->rchild = root;
     UpdateHeight(root);
     UpdateHeight(temp);
     return temp;
@@ -57,4 +67,63 @@ Node *maintain(Node *root) {
 
 Node *insert(Node *root, int key) {
     if (root == NIL) return getNewNode(key);
+    if (root->key == key) return root;
+    if (root->key > key) root->lchild = insert(root->lchild, key);
+    else root->rchild = insert(root->rchild, key);
+    UpdateHeight(root);
+    return maintain(root);
+}
+
+Node *predeccessor(Node *root) {
+    Node *temp = root->lchild;
+    while (temp->rchild != NIL) temp = temp->rchild;
+    return temp;
+}
+
+Node *erase(Node *root, int key) {
+    if (root == NIL) return root;
+    if (root->key > key) root->lchild = erase(root->lchild, key);
+    else if (root->key < key) root->rchild = erase(root->rchild, key);
+    else {
+        if (root->lchild == NIL || root->rchild == NIL) {
+            Node *temp = (root->lchild == NIL ? root->rchild : root->lchild);
+            free(root);
+            return temp;
+        } else {
+            Node *temp = predeccessor(root);
+            root->key = temp->key;
+            root->lchild = erase(root->lchild, temp->key);
+        }
+    }
+    UpdateHeight(root);
+    return maintain(root);
+}
+
+void clear(Node *root) {
+    if (root == NIL) return ;
+    clear(root->lchild);
+    clear(root->rchild);
+    free(root);
+    return ;
+}
+
+void output(Node *root) {
+    if (root == NIL) return ;
+    output(root->lchild);
+    printf("%d [%d, %d]\n", root->key, root->lchild->key, root->rchild->key);
+    output(root->rchild);
+    return ;
+}
+
+int main() {
+    int val, op;
+    Node *root = NIL;
+    while (~scanf("%d%d", &op, &val)) {
+        switch (op) {
+            case 1: root = insert(root, val); break;
+            case 2: root = erase(root, val); break;
+        }
+        output(root);
+    }
+    return 0;
 }
