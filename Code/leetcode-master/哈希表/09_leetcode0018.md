@@ -17,6 +17,7 @@
 输出：[[2,2,2,2]]
 ```
 
+双指针
 ```c++
 class Solution {
 public:
