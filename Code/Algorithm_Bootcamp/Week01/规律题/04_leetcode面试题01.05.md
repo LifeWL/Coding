@@ -20,5 +20,32 @@ second = "pal"
 ```
 
 ```c++
-
+class Solution {
+public:
+    bool oneEditAway(string first, string second) {
+        int lf = first.length(), ls = second.length();
+        if (lf > ls)
+            return oneEditAway(second, first);
+        if (ls - lf > 1)
+            return false;
+        if (lf == ls) {
+            int count = 0;
+            for (int i = 0; i < lf; i++) {
+                if (first[i] != second[i])
+                    count += 1;
+            }
+            return count <= 1;
+        }
+        int i = 0, ofs = 0;
+        while (i < lf) {
+            if (first[i] != second[i + ofs]) {
+                if (++ofs > 1)
+                    return false;
+            } else {
+                i += 1;
+            }
+        }
+        return true;
+    }
+};
 ```

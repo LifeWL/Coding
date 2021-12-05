@@ -13,5 +13,33 @@
 ```
 
 ```c++
+class Solution {
+public:
+    vector<int> masterMind(string solution, string guess) {
+        int n = solution.size();
+        vector<bool> hited(n, false);
+        vector<bool> used(n, false);
+        int hitCount = 0;
+        for (int i = 0; i < n; i++) {
+            if (solution[i] == guess[i]) {
+                hited[i] = true;
+                used[i] = true;
+                hitCount++;
+            }
+        }
 
+        int fakeCount = 0;
+        for (int i = 0; i < n; i++) {
+            if (hited[i]) continue;
+            for (int j = 0; j < n; j++) {
+                if (solution[i] == guess[j] && !used[j]) {
+                    used[j] = true;
+                    fakeCount++;
+                    break;
+                }
+            }
+        }
+        return {hitCount, fakeCount};
+    }
+};
 ```
