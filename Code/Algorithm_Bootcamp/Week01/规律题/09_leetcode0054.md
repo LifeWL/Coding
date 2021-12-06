@@ -17,5 +17,43 @@
 ``` 
 
 ```c++
+class Solution {
+public:
+vector<int> spiralOrder(vector<vector<int>> &matrix) {
+vector<int> res;
+if (matrix.empty()) return res;
+int m = matrix.size();
+int n = matrix[0].size();
+int left = 0;
+int right = n - 1;
+int top = 0;
+int bottom = m - 1;
+while (left <= right && top <= bottom) {
+for (int j = left; j <= right; ++j) {
+res.push_back(matrix[top][j]);
+}
 
+for (int i = top + 1; i <= bottom; ++i) {
+res.push_back(matrix[i][right]);
+}
+
+if (top != bottom) { 
+for (int j = right - 1; j >= left; --j) {
+res.push_back(matrix[bottom][j]);
+}
+}
+
+if (left != right) { 
+for (int i = bottom - 1; i >= top + 1; --i) {
+res.push_back(matrix[i][left]);
+}
+}
+left++;
+right--;
+top++;
+bottom--;
+}
+return res;
+}
+};
 ```

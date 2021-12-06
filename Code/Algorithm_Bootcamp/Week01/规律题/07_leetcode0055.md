@@ -19,7 +19,38 @@
 输出：false
 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ， 所以永远不可能到达最后一个下标。
 ```
-
+临时变量
 ```c++
-
+class Solution {
+public:
+ bool canJump(vector<int>& nums) {
+ int reachedMax = 0;
+ for (int i = 0; i < nums.size(); ++i) {
+ if (i > reachedMax) return false;
+ if (i + nums[i] > reachedMax) {
+ reachedMax = i + nums[i];
+ }
+ if (reachedMax >= nums.size() - 1) return true;
+ }
+ return false;
+ }
+};
+```
+标记数组
+```c++
+class Solution {
+public:
+ bool canJump(vector<int> &nums) {
+ vector<bool> vec(nums.size(), false);
+ int reachedMax = 0;
+ for (int i = 0; i < nums.size(); ++i) {
+ if (i > reachedMax) return false;
+ vec[i] = true;
+ if (i + nums[i] > reachedMax) {
+ reachedMax = i + nums[i];
+ }
+ }
+ return vec[nums.size() - 1];
+ }
+};
 ```

@@ -16,4 +16,56 @@
 ```
 输入：matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
 输出：false
-``` 
+```
+
+```c++
+class Solution {
+public:
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+int h = matrix.size();
+int w = matrix[0].size();
+int i = 0;
+int j = w - 1;
+while (i <= h - 1 && j >= 0) {
+if (matrix[i][j] == target) {
+return true;
+}
+if (matrix[i][j] > target) {
+j--;
+continue;
+}
+if (matrix[i][j] < target) {
+i++;
+continue;
+}
+}
+return false;
+}
+};
+```
+
+```c++
+class Solution {
+public:
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+int h = matrix.size();
+int w = matrix[0].size();
+int i = h - 1;
+int j = 0;
+while (i >= 0 && j <= w - 1) {
+if (matrix[i][j] == target) {
+return true;
+}
+if (matrix[i][j] > target) {
+i--;
+continue;
+}
+if (matrix[i][j] < target) {
+j++;
+continue;
+}
+}
+return false;
+}
+};
+```

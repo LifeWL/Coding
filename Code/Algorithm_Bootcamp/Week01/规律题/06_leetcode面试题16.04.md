@@ -30,5 +30,69 @@
 ```
 
 ```c++
-
+class Solution {
+public:
+string tictactoe(vector<string> &board) {
+    int n = board.size();
+    bool determined = false;
+    for (int i = 0; i < n; ++i) {
+        if (board[i][0] == ' ') continue;
+        determined = true;
+        for (int j = 1; j < n; ++j) {
+            if (board[i][j] != board[i][0]) {
+                determined = false;
+                break;
+            }
+        }
+        string res(1, board[i][0]);
+        if (determined) return res;
+    }
+    for (int j = 0; j < n; ++j) {
+        if (board[0][j] == ' ') continue;
+        determined = true;
+        for (int i = 1; i < n; ++i) {
+            if (board[i][j] != board[0][j]) {
+                determined = false;
+                break;
+            }
+        }
+        string res(1, board[0][j]);
+        if (determined) return res;
+    }
+    if (board[0][0] != ' ') {
+        int i = 1;
+        int j = 1;
+        determined = true;
+        while (i < n && j < n) {
+            if (board[i][j] != board[0][0]) {
+            determined = false;
+            break;
+            }
+        i++;
+        j++;
+        }
+        string res(1, board[0][0]);
+        if (determined) return res;
+    }
+    if (board[n - 1][0] != ' ') {
+        int i = n - 2, j = 1;
+        determined = true;
+        while (i >= 0 && j < n) {
+        if (board[i][j] != board[n - 1][0]) {
+        determined = false;
+        break;
+        }
+        i--, j++;
+        }
+        string str(1, board[n - 1][0]);
+        if (determined) return str;
+    }
+    for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < board[i].size(); ++j) {
+    if (board[i][j] == ' ') return "Pending";
+    }
+    }
+    return "Draw";
+}
+};
 ```
