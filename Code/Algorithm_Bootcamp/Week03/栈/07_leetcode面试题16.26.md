@@ -78,7 +78,6 @@ public:
                 sign = s[i];
             }
         }
-
         int res = 0;
         // 最后结果要把stack里全部都取出去然后累加在一起
         while (!ss.empty())
