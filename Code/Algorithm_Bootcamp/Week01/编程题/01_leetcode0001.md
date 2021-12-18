@@ -30,8 +30,9 @@
 输出：[0,1]
 ```
 
- 暴力
+**c++**
 
+暴力
 ```c++
 class Solution {
 public:
@@ -49,7 +50,6 @@ public:
 ```
 
 哈希表
-
 ```c++
 class Solution {
 public:
@@ -65,4 +65,19 @@ public:
         return {};
     }
 };
+```
+**java**
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums.length; i++) {
+                if (nums[j] == nums[i] - target) {
+                    return new int[] {i, j};
+                }
+            }
+        }
+        return null;
+    }
+}
 ```
