@@ -30,10 +30,10 @@
 输出：[0,1]
 ```
 
-**c++**
+**C++**
 
 暴力解法
-```c++
+```C++
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
