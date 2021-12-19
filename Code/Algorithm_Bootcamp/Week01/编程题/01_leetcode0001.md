@@ -32,7 +32,7 @@
 
 **c++**
 
-暴力
+暴力解法
 ```c++
 class Solution {
 public:
@@ -66,7 +66,9 @@ public:
     }
 };
 ```
-**java**
+**Java**
+
+暴力解法
 ```java
 class Solution {
     public int[] twoSum(int[] nums, int target) {
