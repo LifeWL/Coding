@@ -37,5 +37,19 @@
 **Java**
 
 ```java
+class Solution {
+    private int mod = 1000000007;
+    private Map<Integer, Integer> memo = new HashMap<>();
+    public int numWays(int n) {
+        if (n == 0) return 1;
+        if (n == 1) return 1;
+        if (memo.containsKey(n)) {
+            return memo.get(n);
+        }
+        int ret = (numWays(n - 1) + numWays(n - 2)) % mod;
+        memo.put(n, ret);
+        return ret;
+    } 
+}
 ```
 
