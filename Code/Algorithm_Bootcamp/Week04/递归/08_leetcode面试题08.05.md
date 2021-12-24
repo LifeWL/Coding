@@ -24,22 +24,16 @@
 **Java**
 
 ```java
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
- */
 class Solution {
-    public ListNode reverseList(ListNode head) {
-        if (head == null) return null;
-        if (head.next == null) return head;
-        ListNode newHead = reverseList(head.next);
-        head.next.next = head;
-        head.next = null;
-        return newHead;
+        public int multiply(int A, int B) {
+        // a个b相加
+        if (A == 1) return B;
+        int halfValue = multiply(A/2, B);
+        if (A%2 == 1) {
+            return halfValue+halfValue+B;
+        } else {
+            return halfValue+halfValue;
+        }
     } 
 }
 ```
