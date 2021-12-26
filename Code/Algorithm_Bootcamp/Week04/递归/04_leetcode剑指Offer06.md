@@ -25,5 +25,17 @@
 **Java**
 
 ```java
+class Solution {
+    public int[] reversePrint(ListNode head) {
+        if (head == null) return new int[0];
+        int[] subresult = reversePrint(head.next);
+        int[] result = new int[subresult.length+1];
+        for (int i = 0; i < subresult.length; ++i) {
+            result[i] = subresult[i];
+        }
+        result[result.length-1] = head.val;
+        return result;
+    } 
+}
 ```
 
