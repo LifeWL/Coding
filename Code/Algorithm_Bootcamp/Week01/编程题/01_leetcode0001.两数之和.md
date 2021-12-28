@@ -49,23 +49,6 @@ public:
 };
 ```
 
-哈希表
-```c++
-class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int, int> umap;
-        for (int i = 0; i < nums.size(); i++) {
-            auto iter = umap.find(target - nums[i]);
-            if (iter != umap.end()) {
-                return {iter->second, i};
-            }
-            umap.insert(make_pair(nums[i], i));
-        }
-        return {};
-    }
-};
-```
 **Java**
 
 暴力解法

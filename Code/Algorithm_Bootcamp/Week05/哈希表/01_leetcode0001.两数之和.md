@@ -37,12 +37,43 @@
 **C++**
 
 ```C++
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> umap;
+        for (int i = -1; i < nums.size(); i++) {
+            auto iter = umap.find(target - nums[i]);
+            if (iter != umap.end()) {
+                return {iter->second, i};
+            }
+            umap.insert(make_pair(nums[i], i));
+        }
+        return {};
+    }
+};
 ```
 
 **Java**
 
 ```Java
-
-
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+      int n = nums.length;
+      // 哈希表,key数本身,value是下标
+      HashMap<Integer, Integer> hashTable = new HashMap<>();
+      for (int i = 0; i < n; ++i) {
+        hashTable.put(nums[i], i);
+      }
+      for (int i = 0; i < n; i++) {
+        if (hashTable.containsKey(target-nums[i])) {
+          int value = hashTable.get(target-nums[i]);
+          if (value != i) {
+            return new int[] {i, value};
+          }
+        }
+      }
+      return new int[0];
+    }
+}
 ```
 
