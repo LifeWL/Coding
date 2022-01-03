@@ -30,8 +30,40 @@
  
 
 **C++**
-
+哈希表
 ```C++
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        std::sort(nums.begin(), nums.end());
+        vector<vector<int>> result;
+        int n = nums.size();
+        unordered_map<int, int> hashMap;
+
+        for (int i = 0; i < n; ++i) {
+            hashMap[nums[i]] = i;
+        }
+        for (int i = 0; i < n; ++i) {
+            if (i != 0 && nums[i] == nums[i - 1]) continue;
+            for (int j = i + 1; j < n; ++j) {
+                    if (j != i + 1 && nums[j] == nums[j - 1]) continue;
+                    int target = -1 * (nums[i] + nums[j]);
+                    if (hashMap.find(target) == hashMap.end()) {
+                        continue;
+                }
+                int k = hashMap[target];
+                if (k > j) {
+                    vector<int> resultItem;
+                    resultItem.push_back(nums[i]);
+                    resultItem.push_back(nums[j]);
+                    resultItem.push_back(nums[k]);
+                    result.push_back(resultItem);
+                }
+            }
+        }
+        return result;
+    }
+};
 ```
 
 **Java**
