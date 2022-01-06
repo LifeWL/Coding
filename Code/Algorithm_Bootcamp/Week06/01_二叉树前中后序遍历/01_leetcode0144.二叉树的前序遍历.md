@@ -49,7 +49,7 @@
 
 **C++**
 
-```C++class Solution {
+```C++
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
