@@ -22,5 +22,30 @@
 **C++**
 
 ```c++
+class solution {
+public:
+    int result;
+    void getdepth(treenode* node, int depth) {
+        result = depth > result ? depth : result;
+        if (node->left == null && node->right == null) return ;
+        if (node->left) { 
+            depth++;    
+            getdepth(node->left, depth);
+            depth--;    
+        }
+        if (node->right) { 
+            depth++;    
+            getdepth(node->right, depth);
+            depth--;    
+        }
+        return ;
+    }
+    int maxdepth(treenode* root) {
+        result = 0;
+        if (root == NULL) return result;
+        getdepth(root, 1);
+        return result;
+    }
+};
 ```
 
