@@ -31,5 +31,35 @@
  
 
 ```C++
+class Solution {
+public:
+    struct cmp {
+        bool operator() (pair<int, int> p1, pair<int, int> p2) {
+            return p1.first < p2.first;
+        }
+    };
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        if (points.size() < k) return {{-1, -1}};
+        priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
+        for (int i = 0; i < k; ++i) {
+            int dist = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            pq.push({dist, i});
+        }
+        int n = points.size();
+        for (int i = k; i < n; ++i) {
+            int dist = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            if (dist < pq.top().first) {
+                pq.pop();
+                pq.push({dist, i});
+            }
+        }
+        vector<vector<int>> ans(k);
+        for (int i = 0; i < k; ++i) {
+            ans[i] = points[pq.top().second];
+            pq.pop();
+        }
+        return ans;
+    }
+};
 ```
 

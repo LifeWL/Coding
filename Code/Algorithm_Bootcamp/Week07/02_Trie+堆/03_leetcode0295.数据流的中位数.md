@@ -29,5 +29,36 @@ findMedian() -> 2
 2. 如果数据流中 99% 的整数都在 0 到 100 范围内，你将如何优化你的算法？
 
 ```C++
+class MedianFinder {
+public:
+    priority_queue<int, vector<int>, greater<int>> minQueue;
+    priority_queue<int, vector<int>, less<int>> maxQueue;
+    MedianFinder() {}
+    void addNum(int num) {
+        // ⼤顶堆的元素个数⼤于等于⼩顶堆, 因此倾向于优先向⼤顶堆放⼊
+        if (maxQueue.empty() || num <= maxQueue.top()) {
+            maxQueue.push(num);
+        } else {
+            minQueue.push(num);
+        }
+        while (maxQueue.size() < minQueue.size()) {
+            auto top = minQueue.top();
+            minQueue.pop();
+            maxQueue.push(top);
+        }
+        while (maxQueue.size() - 1 > minQueue.size()) {
+            auto top = maxQueue.top();
+            maxQueue.pop();
+            minQueue.push(top);
+        }
+    }
+    double findMedian() {
+        if (maxQueue.size() > minQueue.size()) {
+            return maxQueue.top();
+        } else {
+            return (maxQueue.top() + minQueue.top()) / 2.0;
+        }
+    }
+};
 ```
 

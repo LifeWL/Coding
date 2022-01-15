@@ -38,5 +38,34 @@
  
 
 ```C++
+class Solution {
+public:
+    struct cmp {
+        bool operator() (ListNode* node1, ListNode* node2) {
+            return node1->val > node2->val; // ⼩顶堆
+        }
+    };
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return nullptr;
+        priority_queue<ListNode*, vector<ListNode*>, cmp> minQ;
+        for (int i = 0; i < lists.size(); ++i) {
+            if (lists[i]) {
+            minQ.push(lists[i]);
+        }      
+    }
+    ListNode* dummyNode = new ListNode(0);
+    ListNode* tail = dummyNode;
+    while (!minQ.empty()) {
+        ListNode* curNode = minQ.top();
+        minQ.pop();
+        tail->next = curNode;
+        tail = curNode;
+        if (curNode->next) {
+            minQ.push(curNode->next);
+        }
+    }
+    return dummyNode->next;
+    }
+};
 ```
 

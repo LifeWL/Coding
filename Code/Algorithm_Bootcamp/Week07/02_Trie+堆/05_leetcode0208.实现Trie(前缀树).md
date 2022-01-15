@@ -33,5 +33,54 @@ trie.search("app");     // 返回 True
  
 
 ```C++
+class Trie {
+public:
+    class TrieNode {
+    public:
+        char data;
+        bool isEnding = false;
+        vector<TrieNode*> children;
+        TrieNode(char data) {
+            this->data = data;
+            children.assign(26, nullptr);
+        }
+    };
+    TrieNode* root;
+    Trie() {
+        root = new TrieNode('/');
+    }
+
+    void insert(string word) {
+        TrieNode* p = root;
+        for (int i = 0; i < word.size(); ++i) {
+            char c = word[i];
+            if (p->children[c - 'a'] == nullptr) {
+                p->children[c - 'a'] = new TrieNode(c);
+            }
+            p = p->children[c - 'a'];
+        }
+        p->isEnding = true;
+    }
+
+    bool search(string word) {
+        TrieNode* p = root;
+        for (int i = 0; i < word.size(); ++i) {
+           char c = word[i];
+           if (p->children[c - 'a'] == nullptr) return false;
+           p = p->children[c - 'a'];
+           }
+        return p->isEnding;
+    }
+    
+    bool startsWith(string prefix) {
+       TrieNode* p = root;
+       for (int i = 0; i < prefix.size(); ++i) {
+       char c = prefix[i];
+       if (p->children[c - 'a'] == nullptr) return false;
+           p = p->children[c - 'a'];
+       }
+       return true;
+    }
+};
 ```
 
