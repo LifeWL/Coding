@@ -22,4 +22,58 @@
   ".Q.."]
 ]
 ```
-
+```C++
+class Solution {
+public:
+    vector<vector<string>> result;
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<char>> board(n, vector<char>(n));
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+            board[i][j] = '.';
+            }
+        }
+        backtrack(0, board, n);
+        return result;
+    }
+    void backtrack(int row, vector<vector<char>>& board, int n) {
+        if (row == n) {
+            vector<string> snapshot;
+            for (int i = 0; i < n; ++i) {
+                string str(board[i].begin(), board[i].end());
+                snapshot.push_back(str);
+            }
+            result.push_back(snapshot);
+            return;
+        }
+        for (int col = 0; col < n; ++col) {
+            if (isOk(board, n, row, col)) {
+                board[row][col] = 'Q';
+                backtrack(row + 1, board, n);
+                board[row][col] = '.';
+            }
+        }
+    }
+    bool isOk(vector<vector<char>> board, int n, int row, int col) {
+        // 检查列是否有冲突
+        for (int i = 0; i < n; ++i) {
+            if (board[i][col] == 'Q') {
+                return false;
+            }
+        }
+        // 检查右上对⻆线是否有冲突
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; --i, ++j) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+        // 检查左上对⻆线是否有冲突
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; --i, --j) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
