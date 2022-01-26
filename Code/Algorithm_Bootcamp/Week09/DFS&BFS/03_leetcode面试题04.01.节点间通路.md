@@ -19,5 +19,36 @@
 
 
 ```C++
+class Solution {
+public:
+    vector<bool> visited;
+    vector<unordered_set<int>> adj;
+    bool found = false;
+    bool findWhetherExistsPath(int n, vector<vector<int>>& graph, int start, int target) {
+        visited.assign(n, false);
+        adj.assign(n, unordered_set<int>());
+        for (int i = 0; i < n; ++i) {
+        auto it = adj[graph[i][0]].find(graph[i][1]);
+        if (it == adj[graph[i][0]].end()) {
+            adj[graph[i][0]].insert(graph[i][1]);
+        }
+        }
+        dfs(start, target);
+        return found;
+    }
+    void dfs(int cur, int target) {
+        if (found) return;
+        if (cur == target) {
+            found = true;
+            return;
+        }
+        visited[cur] = true;
+        for (int next: adj[cur]) {
+            if (!visited[next]) {
+                dfs(next, target);
+            }
+        }
+    }
+};
 ```
 
