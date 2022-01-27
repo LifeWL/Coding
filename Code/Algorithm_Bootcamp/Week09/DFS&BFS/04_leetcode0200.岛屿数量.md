@@ -35,5 +35,38 @@
  
 
 ```C++
+class Solution {
+public:
+    vector<vector<bool>> visited;
+    int h;
+    int w;
+    int numIslands(vector<vector<char>>& grid) {
+        h = grid.size();
+        w = grid[0].size();
+        visited.assign(h, vector<bool>(w));
+        int result = 0;
+        for (int i = 0; i < h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                if (visited[i][j] != true && grid[i][j] == '1') {
+                    result++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return result;
+    }
+    void dfs(vector<vector<char>>& grid, int i, int j) {
+        vector<vector<int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        visited[i][j] = true;
+        for (int k = 0; k < 4; ++k) {
+            int newi = i + directions[k][0];
+            int newj = j + directions[k][1];
+            if (newi >= 0 && newi < h && newj >= 0 && newj < w
+            && visited[newi][newj] == false && grid[newi][newj] == '1') {
+                dfs(grid, newi, newj);
+            }
+        }
+    }
+};
 ```
 
