@@ -18,5 +18,40 @@
 
 
 ```C++
+class Solution {
+public:
+    int count = 0;
+    int n;
+    int m;
+    vector<int> pondSizes(vector<vector<int>>& land) {
+        n = land.size();
+        m = land[0].size();
+        vector<int> result;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (land[i][j] == 0) {
+                    count = 0;
+                    dfs(land, i, j);
+                    result.push_back(count);
+                }
+            }
+        }
+        sort(result.begin(), result.end());
+        return result;
+    }
+    void dfs(vector<vector<int>> &land, int curi, int curj) {
+        count++;
+        land[curi][curj] = 1;
+        vector<vector<int>> dirs = {{-1, 0}, {1, 0}, {0, 1}, {0, -1},
+        {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
+        for (int d = 0; d < 8; ++d) {
+            int newi = curi + dirs[d][0];
+            int newj = curj + dirs[d][1];
+            if (newi >= 0 && newi < n && newj >= 0 && newj < m&& land[newi][newj] == 0) {
+                dfs(land, newi, newj);
+            }
+        }
+    }
+};
 ```
 
