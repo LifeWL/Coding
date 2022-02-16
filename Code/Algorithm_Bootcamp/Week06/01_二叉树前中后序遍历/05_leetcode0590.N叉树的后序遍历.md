@@ -33,5 +33,28 @@ N 叉树 在输入中按层序遍历进行序列化表示，每组子节点由�
  **C++**
 
 ```c++
+class Solution {
+public:
+    vector<int> postorder(Node* root) {
+        if (!root) return {};
+        vector<int> res;
+        stack<Node*> stk;
+        stk.push(root);
+        while (!stk.empty()) {
+            Node* node = stk.top();
+            if (node == nullptr) {
+                stk.pop();
+                res.push_back(stk.top()->val);
+                stk.pop();
+            } else {
+                stk.push(nullptr);
+                for (int i = node->children.size() - 1; i >= 0; i -- )  {
+                    if (node->children[i]) stk.push(node->children[i]);
+                }
+            }
+        }
+        return res;
+    }
+};
 ```
 
