@@ -49,7 +49,8 @@ public:
             } else {
                 stk.push(nullptr);
                 for (int i = node->children.size() - 1; i >= 0; i -- )  {
-                    if (node->children[i]) stk.push(node->children[i]);
+                    if (node->children[i]) 
+                    stk.push(node->children[i]);
                 }
             }
         }
