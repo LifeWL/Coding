@@ -33,16 +33,13 @@ public:
 };
 ```
 
-
-
 ```c++
 哈希表
 class Solution {
 public:
     int findRepeatNumber(vector<int>& nums) {
         unordered_map<int, bool> umap;
-        for (int i = 0; i < nums.size(); i++)
-        {
+        for (int i = 0; i < nums.size(); i++) {
             if (umap[nums[i]]) return nums[i];
             umap[nums[i]] = true;
         }

@@ -35,4 +35,16 @@ public:
     }
 };
 ```
-
+```c++
+class Solution {
+public:
+    string replaceSpace(string s) {
+        string newstring;
+        for (int i = 0; i < s.size(); i++) {
+            if (s != ' ') newstring += s[i];
+            else newstring += "%20"
+        }
+        return newstring;
+    }
+}
+```
