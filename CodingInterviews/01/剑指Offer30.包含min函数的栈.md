@@ -20,5 +20,31 @@ minStack.min();   --> 返回 -2.
  
 
 ```C++
+class MinStack {
+public:
+    stack<int> stk1;
+    stack<int> stk2;
+    MinStack() {
+        stk2.push(INT_MAX);
+    }
+    
+    void push(int x) {
+        stk1.push(x);
+        stk2.push(std::min(stk2.top(), x));
+    }
+    
+    void pop() {
+        stk2.pop();
+        stk1.pop();
+    }
+    
+    int top() {
+        return stk1.top();
+    }
+    
+    int min() {
+        return stk2.top();
+    }
+};
 ```
 
