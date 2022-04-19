@@ -27,6 +27,7 @@ B是A的子结构， 即 A中有出现和B相同的结构和节点值。
 输出：true
 ```
 
+
 ```C++
 class Solution {
 public:

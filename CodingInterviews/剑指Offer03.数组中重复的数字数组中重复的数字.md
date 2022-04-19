@@ -11,6 +11,22 @@
 输出：2 或 3 
 ```
 
+
+```c++
+哈希表
+class Solution {
+public:
+    int findRepeatNumber(vector<int>& nums) {
+        unordered_map<int, bool> umap;
+        for (int i = 0; i < nums.size(); i++) {
+            if (umap[nums[i]]) return nums[i];
+            umap[nums[i]] = true;
+        }
+        return -1;
+    }
+};
+```
+
 ```c++
 最佳解法
 class Solution {
@@ -23,21 +39,6 @@ public:
                 if (nums[i] == nums[nums[i]]) return nums[i];
                 swap(nums[i], nums[nums[i]]);
             }
-        }
-        return -1;
-    }
-};
-```
-
-```c++
-哈希表
-class Solution {
-public:
-    int findRepeatNumber(vector<int>& nums) {
-        unordered_map<int, bool> umap;
-        for (int i = 0; i < nums.size(); i++) {
-            if (umap[nums[i]]) return nums[i];
-            umap[nums[i]] = true;
         }
         return -1;
     }

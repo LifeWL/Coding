@@ -25,7 +25,6 @@
 输入：board = [["a","b"],["c","d"]], word = "abcd"
 输出：false
 ```
-
  
 
 ```C++

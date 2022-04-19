@@ -17,7 +17,6 @@
 ```
 
  
-
 ```C++
 class Solution {
 public:

@@ -36,7 +36,6 @@ public:
 ```
 
 
-
 ```C++
 class Solution {
 public:

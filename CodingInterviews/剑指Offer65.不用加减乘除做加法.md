@@ -11,7 +11,6 @@
 输出: 2
 ```
 
- 
 
 ```C++
 class Solution {

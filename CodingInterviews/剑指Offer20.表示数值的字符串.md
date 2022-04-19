@@ -61,7 +61,6 @@
 ```
 
  
-
 ```C++
 class Solution {
 private:

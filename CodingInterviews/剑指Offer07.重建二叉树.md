@@ -23,7 +23,6 @@ Output: [-1]
 ```
 
  
-
 ```C++
 class Solution {
 public:

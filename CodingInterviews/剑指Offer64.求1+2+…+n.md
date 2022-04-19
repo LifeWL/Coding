@@ -18,7 +18,6 @@
 输出: 45
 ```
 
- 
 
 ```C++
 class Solution {

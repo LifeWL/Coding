@@ -21,7 +21,6 @@
 ```
 
 
-
 ```c++
 class CQueue {
     stack<int> stack1,stack2;

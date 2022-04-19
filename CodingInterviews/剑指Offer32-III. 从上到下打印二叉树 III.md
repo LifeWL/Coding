@@ -25,7 +25,6 @@
 ]
 ```
 
- 
 
 ```c++
 class Solution {

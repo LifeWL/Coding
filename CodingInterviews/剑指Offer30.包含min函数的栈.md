@@ -18,7 +18,6 @@ minStack.min();   --> 返回 -2.
 ```
 
  
-
 ```C++
 class MinStack {
 public:

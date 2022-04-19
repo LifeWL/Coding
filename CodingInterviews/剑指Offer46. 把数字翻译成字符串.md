@@ -13,7 +13,6 @@
 ```
 
  
-
 ```C++
 class Solution {
 public:

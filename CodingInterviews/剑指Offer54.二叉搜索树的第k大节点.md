@@ -31,7 +31,6 @@
 ```
 
  
-
 ```C++
 class Solution {
 public: 

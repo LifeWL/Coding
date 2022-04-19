@@ -10,7 +10,6 @@
 ```
 
  
-
 ```c++
 class Solution {
 private:
