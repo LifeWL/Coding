@@ -4,13 +4,9 @@
 
 请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 `0` 。
 
-假设每一种面额的硬币有无限个。 
+假设每一种面额的硬币有无限个。
 
 题目数据保证结果符合 32 位带符号整数。
-
- 
-
-
 
 **示例 1：**
 
@@ -39,4 +35,16 @@
 输出：1
 ```
 
- 
+```cpp
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<int> f(amount + 1);
+        f[0] = 1;
+        for (auto x: coins)
+            for (int i = x; i <= amount; i ++ )
+                f[i] += f[i - x];
+        return f[amount];
+    }
+};
+```
