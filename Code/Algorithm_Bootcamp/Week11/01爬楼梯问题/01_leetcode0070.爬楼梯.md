@@ -4,8 +4,6 @@
 
 每次你可以爬 `1` 或 `2` 个台阶。你有多少种不同的方法可以爬到楼顶呢？
 
- 
-
 **示例 1：**
 
 ```
@@ -27,4 +25,16 @@
 3. 2 阶 + 1 阶
 ```
 
- 
+```cpp
+class Solution {
+public:
+    int climbStairs(int n) {
+        int a = 1, b = 1;
+        while ( -- n) {
+            int c = a + b;
+            a = b, b = c;
+        }
+        return b;
+    }
+};
+```
