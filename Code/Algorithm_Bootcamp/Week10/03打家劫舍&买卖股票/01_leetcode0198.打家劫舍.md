@@ -4,8 +4,6 @@
 
 给定一个代表每个房屋存放金额的非负整数数组，计算你 **不触动警报装置的情况下** ，一夜之内能够偷窃到的最高金额。
 
- 
-
 **示例 1：**
 
 ```
@@ -24,4 +22,17 @@
      偷窃到的最高金额 = 2 + 9 + 1 = 12 。
 ```
 
- 
+```cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> f(n + 1), g(n + 1);
+        for (int i = 1; i <= n; i ++ ) {
+            f[i] = g[i - 1] + nums[i - 1];
+            g[i] = max(f[i - 1], g[i - 1]);
+        }
+        return max(f[n], g[n]);
+    }
+};
+```
