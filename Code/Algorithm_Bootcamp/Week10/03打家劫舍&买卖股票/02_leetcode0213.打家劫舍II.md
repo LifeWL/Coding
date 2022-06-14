@@ -4,8 +4,6 @@
 
 给定一个代表每个房屋存放金额的非负整数数组，计算你 **在不触动警报装置的情况下** ，今晚能够偷窃到的最高金额。
 
- 
-
 **示例 1：**
 
 ```
@@ -30,4 +28,27 @@
 输出：3
 ```
 
- 
+```cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (!n) return 0;
+        if (n == 1) return nums[0];
+        vector<int> f(n + 1), g(n + 1);
+        for (int i = 2; i <= n; i ++ ) {
+            f[i] = g[i - 1] + nums[i - 1];
+            g[i] = max(f[i - 1], g[i - 1]);
+        }
+        int res = max(f[n], g[n]);
+        f[1] = nums[0];
+        g[1] = INT_MIN;
+        for (int i = 2; i <= n; i ++ ) {
+            f[i] = g[i - 1] + nums[i - 1];
+            g[i] = max(f[i - 1], g[i - 1]);
+        }
+
+        return max(res, g[n]);
+    }
+};
+```
