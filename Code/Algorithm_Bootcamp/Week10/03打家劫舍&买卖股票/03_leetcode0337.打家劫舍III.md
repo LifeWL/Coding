@@ -6,8 +6,6 @@
 
 给定二叉树的 `root` 。返回 ***在不触动警报的情况下** ，小偷能够盗取的最高金额* 。
 
- 
-
 **示例 1:**
 
 ![img](https://assets.leetcode.com/uploads/2021/03/10/rob1-tree.jpg)
@@ -28,4 +26,18 @@
 解释: 小偷一晚能够盗取的最高金额 4 + 5 = 9
 ```
 
- 
+```cpp
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        auto f = dfs(root);
+        return max(f[0], f[1]);
+    }
+
+    vector<int> dfs(TreeNode* u) {
+        if (!u) return {0, 0};
+        auto x = dfs(u->left), y = dfs(u->right);
+        return {max(x[0], x[1]) + max(y[0], y[1]), x[0] + y[0] + u->val};
+    }
+};
+```
