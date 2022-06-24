@@ -8,8 +8,6 @@
 
 请你判断是否可能完成所有课程的学习？如果可以，返回 `true` ；否则，返回 `false` 。
 
- 
-
 **示例 1：**
 
 ```
@@ -26,8 +24,34 @@
 解释：总共有 2 门课程。学习课程 1 之前，你需要先完成课程 0 ；并且学习课程 0 之前，你还应先完成课程 1 。这是不可能的。
 ```
 
- 
-
 ```C++
-```
+class Solution {
+public:
+    bool canFinish(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> g(n);
+        vector<int> d(n);
+        for (auto& e: edges) {
+            int b = e[0], a = e[1];
+            g[a].push_back(b);
+            d[b] ++ ;
+        }
 
+        queue<int> q;
+        for (int i = 0; i < n; i ++ )
+            if (d[i] == 0)
+                q.push(i);
+
+        int cnt = 0;
+        while (q.size()) {
+            auto t = q.front();
+            q.pop();
+            cnt ++ ;
+            for (auto i : g[t])
+                if ( -- d[i] == 0)
+                    q.push(i);
+        }
+
+        return cnt == n;
+    }
+};
+```
