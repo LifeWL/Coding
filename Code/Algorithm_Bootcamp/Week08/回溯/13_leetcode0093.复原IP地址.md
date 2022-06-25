@@ -6,8 +6,6 @@
 
 给定一个只包含数字的字符串 `s` ，用以表示一个 IP 地址，返回所有可能的**有效 IP 地址**，这些地址可以通过在 `s` 中插入 `'.'` 来形成。你不能重新排序或删除 `s` 中的任何数字。你可以按 **任何** 顺序返回答案。
 
- 
-
 **示例 1：**
 
 ```
@@ -43,8 +41,30 @@
 输出：["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
 ```
 
+```C++
+class Solution {
+public:
+    vector<string> ans;
+    vector<string> restoreIpAddresses(string s) {
+        dfs(s, 0, 0, "");
+        return ans;
+    }
 
-
- ```C++
- ```
-
+    void dfs(string& s, int u, int k, string path) {
+        if (u == s.size()) {
+            if (k == 4) {
+                path.pop_back();
+                ans.push_back(path);
+            }
+            return;
+        }
+        if (k == 4) return;
+        for (int i = u, t = 0; i < s.size(); i ++ ) {
+            if (i > u && s[u] == '0') break;  // 有前导0
+            t = t * 10 + s[i] - '0';
+            if (t <= 255) dfs(s, i + 1, k + 1, path + to_string(t) + '.');
+            else break;
+        }
+    }
+};
+```
