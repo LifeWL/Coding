@@ -5,7 +5,7 @@
 **说明：**
 
 - 所有数字都是正整数。
-- 解集不能包含重复的组合。 
+- 解集不能包含重复的组合。
 
 **示例 1:**
 
@@ -21,8 +21,28 @@
 输出: [[1,2,6], [1,3,5], [2,3,4]]
 ```
 
-
-
 ```C++
-```
+class Solution {
+public:
+    vector<vector<int>> ans;
+    vector<int> path;
 
+    vector<vector<int>> combinationSum3(int k, int n) {
+        dfs(1, n, k);
+        return ans;
+    }
+
+    void dfs(int start, int n, int k) {
+        if (!n) {
+            if (!k) ans.push_back(path);
+        } else if (k) {
+            for (int i = start; i <= 9; i ++ )
+                if (n >= i) {
+                    path.push_back(i);
+                    dfs(i + 1, n - i, k - 1);
+                    path.pop_back();
+                }
+        }
+    }
+};
+```
