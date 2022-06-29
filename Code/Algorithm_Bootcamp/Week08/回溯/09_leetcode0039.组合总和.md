@@ -2,11 +2,9 @@
 
 给你一个 **无重复元素** 的整数数组 `candidates` 和一个目标整数 `target` ，找出 `candidates` 中可以使数字和为目标数 `target` 的 **所有不同组合** ，并以列表形式返回。你可以按 **任意顺序** 返回这些组合。
 
-`candidates` 中的 **同一个** 数字可以 **无限制重复被选取** 。如果至少一个数字的被选数量不同，则两种组合是不同的。 
+`candidates` 中的 **同一个** 数字可以 **无限制重复被选取** 。如果至少一个数字的被选数量不同，则两种组合是不同的。
 
 对于给定的输入，保证和为 `target` 的不同组合数少于 `150` 个。
-
- 
 
 **示例 1：**
 
@@ -47,4 +45,33 @@
 输出: [[1,1]]
 ```
 
- 
+```cpp
+class Solution {
+public:
+
+    vector<vector<int>> ans;
+    vector<int> path;
+
+    vector<vector<int>> combinationSum(vector<int>& c, int target) {
+        dfs(c, 0, target);
+        return ans;
+    }
+
+    void dfs(vector<int>& c, int u, int target) {
+        if (target == 0) {
+            ans.push_back(path);
+            return;
+        }
+        if (u == c.size()) return;
+
+        for (int i = 0; c[u] * i <= target; i ++ ) {
+            dfs(c, u + 1, target - c[u] * i);
+            path.push_back(c[u]);
+        }
+
+        for (int i = 0; c[u] * i <= target; i ++ ) {
+            path.pop_back();
+        }
+    }
+};
+```
