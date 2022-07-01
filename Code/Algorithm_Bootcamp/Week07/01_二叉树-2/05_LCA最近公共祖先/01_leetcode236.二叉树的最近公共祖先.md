@@ -4,8 +4,6 @@
 
 [百度百科](https://baike.baidu.com/item/最近公共祖先/8918834?fr=aladdin)中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（**一个节点也可以是它自己的祖先**）。”
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode.com/uploads/2018/12/14/binarytree.png)
@@ -33,8 +31,24 @@
 输出：1
 ```
 
- 
-
 ```C++
-```
+class Solution {
+public:
+    TreeNode* ans = NULL;
 
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        dfs(root, p, q);
+        return ans;
+    }
+
+    int dfs(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root) return 0;
+        int state = dfs(root->left, p, q);
+        if (root == p) state |= 1;
+        else if (root == q) state |= 2;
+        state |= dfs(root->right, p, q);
+        if (state == 3 && !ans) ans = root;
+        return state;
+    }
+};
+```
