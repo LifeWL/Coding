@@ -6,8 +6,6 @@
 
 给你一个二叉树的根节点 `root` ，返回其 **最大路径和** 。
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode.com/uploads/2020/10/13/exx1.jpg)
@@ -28,8 +26,22 @@
 解释：最优路径是 15 -> 20 -> 7 ，路径和为 15 + 20 + 7 = 42
 ```
 
- 
-
 ```C++
-```
+class Solution {
+public:
+    int ans;
 
+    int maxPathSum(TreeNode* root) {
+        ans = INT_MIN;
+        dfs(root);
+        return ans;
+    }
+
+    int dfs(TreeNode* u) {
+        if (!u) return 0;
+        int left = max(0, dfs(u->left)), right = max(0, dfs(u->right));
+        ans = max(ans, u->val + left + right);
+        return u->val + max(left, right);
+    }
+};
+```
