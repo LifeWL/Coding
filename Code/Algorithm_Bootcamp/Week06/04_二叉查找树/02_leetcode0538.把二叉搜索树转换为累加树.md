@@ -10,11 +10,8 @@
 
 **注意：**本题和 1038: https://leetcode-cn.com/problems/binary-search-tree-to-greater-sum-tree/ 相同
 
- 
-
 **示例 1：**
 
-**![img](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/05/03/tree.png)**
 
 ```
 输入：[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
@@ -45,5 +42,22 @@
  **C++**
 
 ```C++
-```
+class Solution {
+public:
+    int sum = 0;
 
+    TreeNode* convertBST(TreeNode* root) {
+        dfs(root);
+        return root;
+    }
+
+    void dfs(TreeNode* root) {
+        if (!root) return;
+        dfs(root->right);
+        int x = root->val;
+        root->val += sum;
+        sum += x;
+        dfs(root->left);
+    }
+};
+```
