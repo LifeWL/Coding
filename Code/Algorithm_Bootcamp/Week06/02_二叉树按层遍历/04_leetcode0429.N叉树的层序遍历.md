@@ -4,8 +4,6 @@
 
 树的序列化输入是用层序遍历，每组子节点都由 null 值分隔（参见示例）。
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode.com/uploads/2018/10/12/narytreeexample.png)
@@ -27,5 +25,25 @@
  **C++**
 
 ```c++
+class Solution {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+        vector<vector<int>> res;
+        if (!root) return res;
+        queue<Node*> q;
+        q.push(root);
+        while (q.size()) {
+            int len = q.size();
+            vector<int> line;
+            while (len -- ) {
+                auto t = q.front();
+                q.pop();
+                line.push_back(t->val);
+                for (auto c: t->children) q.push(c);
+            }
+            res.push_back(line);
+        }
+        return res;
+    }
+};
 ```
-
