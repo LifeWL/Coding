@@ -4,8 +4,6 @@
 
 假设二叉树中至少有一个节点。
 
- 
-
 **示例 1:**
 
 ![img](https://assets.leetcode.com/uploads/2020/12/14/tree1.jpg)
@@ -24,10 +22,25 @@
 输出: 7
 ```
 
- 
-
 **C++**
 
 ```C++
-```
+class Solution {
+public:
+    int ans, maxd = 0;
 
+    int findBottomLeftValue(TreeNode* root) {
+        dfs(root, 1);
+        return ans;
+    }
+
+    void dfs(TreeNode* root, int d) {
+        if (!root) return;
+        if (d > maxd) {
+            maxd = d;
+            ans = root->val;
+        }
+        dfs(root->left, d + 1), dfs(root->right, d + 1);
+    }
+};
+```
