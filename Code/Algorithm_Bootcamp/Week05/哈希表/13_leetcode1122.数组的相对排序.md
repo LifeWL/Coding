@@ -7,8 +7,6 @@
 
 对 `arr1` 中的元素进行排序，使 `arr1` 中项的相对顺序和 `arr2` 中的相对顺序相同。未在 `arr2` 中出现过的元素需要按照升序放在 `arr1` 的末尾。
 
- 
-
 **示例：**
 
 ```
@@ -16,15 +14,22 @@
 输出：[2,2,2,1,4,3,3,9,6,7,19]
 ```
 
- 
-
 **C++**
 
 ```c++
+class Solution {
+public:
+    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        unordered_map<int, int> hash;
+        for (int i = 0; i < arr2.size(); i ++ )
+            hash[arr2[i]] = i - arr2.size();
+
+        sort(arr1.begin(), arr1.end(), [&](int a, int b) {
+            if (hash[a] == hash[b]) return a < b;
+            return hash[a] < hash[b];
+        });
+
+        return arr1;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
