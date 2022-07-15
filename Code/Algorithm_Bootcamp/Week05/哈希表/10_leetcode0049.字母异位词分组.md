@@ -4,8 +4,6 @@
 
 **字母异位词** 是由重新排列源单词的字母得到的一个新单词，所有源单词中的字母通常恰好只用一次。
 
- 
-
 **示例 1:**
 
 ```
@@ -27,15 +25,23 @@
 输出: [["a"]]
 ```
 
- 
-
 **C++**
 
 ```c++
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> hash;
+        for (auto& str: strs) {
+            string nstr = str;
+            sort(nstr.begin(), nstr.end());
+            hash[nstr].push_back(str);
+        }
+
+        vector<vector<string>> res;
+        for (auto& item : hash) res.push_back(item.second);
+
+        return res;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
