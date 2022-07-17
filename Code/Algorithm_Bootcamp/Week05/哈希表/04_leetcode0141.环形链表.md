@@ -6,8 +6,6 @@
 
 如果链表中存在环，则返回 `true` 。 否则，返回 `false` 。
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png)
@@ -41,11 +39,18 @@
  **C++**
 
 ```C++
-
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if (!head || !head->next) return false;
+        auto s = head, f = head->next;
+        while (f) {
+            s = s->next, f = f->next;
+            if (!f) return false;
+            f = f->next;
+            if (s == f) return true;
+        }
+        return false;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
