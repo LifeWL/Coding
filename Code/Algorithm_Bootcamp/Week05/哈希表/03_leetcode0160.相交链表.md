@@ -22,8 +22,6 @@
 
 评测系统将根据这些输入创建链式数据结构，并将两个头节点 `headA` 和 `headB` 传递给你的程序。如果程序能够正确返回相交节点，那么你的解决方案将被 **视作正确答案** 。
 
- 
-
 **示例 1：**
 
 [![img](https://assets.leetcode.com/uploads/2021/03/05/160_example_1_1.png)](https://assets.leetcode.com/uploads/2018/12/13/160_example_1.png)
@@ -60,16 +58,18 @@
 这两个链表不相交，因此返回 null 。
 ```
 
- 
-
 **C++**
 
 ```C++
-
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        auto p = headA, q = headB;
+        while (p != q) {
+            p = p ? p->next : headB;
+            q = q ? q->next : headA;
+        }
+        return p;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
