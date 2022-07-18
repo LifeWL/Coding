@@ -4,8 +4,6 @@
 
 请注意，你需要找的是数组排序后的第 `k` 个最大的元素，而不是第 `k` 个不同的元素。
 
- 
-
 **示例 1:**
 
 ```
@@ -23,10 +21,23 @@
  **C++**
 
 ```c++
+class Solution {
+public:
+
+    int quick_sort(vector<int>& nums, int l, int r, int k) {
+        if (l == r) return nums[k];
+        int x = nums[l], i = l - 1, j = r + 1;
+        while (i < j) {
+            do i ++ ; while (nums[i] > x);
+            do j -- ; while (nums[j] < x);
+            if (i < j) swap(nums[i], nums[j]);
+        }
+        if (k <= j) return quick_sort(nums, l, j, k);
+        else return quick_sort(nums, j + 1, r, k);
+    }
+
+    int findKthLargest(vector<int>& nums, int k) {
+        return quick_sort(nums, 0, nums.size() - 1, k - 1);
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
