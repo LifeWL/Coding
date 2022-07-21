@@ -4,10 +4,6 @@
 
 此题中，我们使用整数 `0`、 `1` 和 `2` 分别表示红色、白色和蓝色。
 
-
-
- 
-
 **示例 1：**
 
 ```
@@ -39,10 +35,14 @@
  **C++**
 
 ```C++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        for (int i = 0, j = 0, k = nums.size() - 1; i <= k;) {
+            if (nums[i] == 0) swap(nums[i ++ ], nums[j ++ ]);
+            else if (nums[i] == 2) swap(nums[i], nums[k -- ]);
+            else i ++ ;
+        }
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
