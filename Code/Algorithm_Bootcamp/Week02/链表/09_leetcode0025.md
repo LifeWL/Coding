@@ -11,8 +11,6 @@
 - 你可以设计一个只使用常数额外空间的算法来解决此问题吗？
 - **你不能只是单纯的改变节点内部的值**，而是需要实际进行节点交换。
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode.com/uploads/2020/10/03/reverse_ex1.jpg)
@@ -45,8 +43,35 @@
 输出：[1]
 ```
 
-
-
 ```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        auto dummy = new ListNode(-1);
+        dummy->next = head;
+        for (auto p = dummy;;) {
+            auto q = p;
+            for (int i = 0; i < k && q; i ++ ) q = q->next;
+            if (!q) break;
+            auto a = p->next, b = a->next;
+            for (int i = 0; i < k - 1; i ++ ) {
+                auto c = b->next;
+                b->next = a;
+                a = b, b = c;
+            }
+            auto c = p->next;
+            p->next = a, c->next = b;
+            p = c;
+        }
+        return dummy->next;
+    }
+};
 ```
-
