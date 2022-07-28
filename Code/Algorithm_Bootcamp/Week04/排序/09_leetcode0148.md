@@ -6,8 +6,6 @@
 
 - 你可以在 `O(n log n)` 时间复杂度和常数级空间复杂度下，对链表进行排序吗？
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode.com/uploads/2020/09/14/sort_list_1.jpg)
@@ -33,15 +31,43 @@
 输出：[]
 ```
 
- 
-
 **C++**
 
 ```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        int n = 0;
+        for (auto p = head; p; p = p->next) n ++ ;
+
+        for (int i = 1; i < n; i *= 2) {
+            auto dummy = new ListNode(-1), cur = dummy;
+            for (int j = 1; j <= n; j += i * 2) {
+                auto p = head, q = p;
+                for (int k = 0; k < i && q; k ++ ) q = q->next;
+                auto o = q;
+                for (int k = 0; k < i && o; k ++ ) o = o->next;
+                int l = 0, r = 0;
+                while (l < i && r < i && p && q)
+                    if (p->val <= q->val) cur = cur->next = p, p = p->next, l ++ ;
+                    else cur = cur->next = q, q = q->next, r ++ ;
+                while (l < i && p) cur = cur->next = p, p = p->next, l ++ ;
+                while (r < i && q) cur = cur->next = q, q = q->next, r ++ ;
+                head = o;
+            }
+            cur->next = NULL;
+            head = dummy->next;
+        }
+
+        return head;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
