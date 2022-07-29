@@ -6,8 +6,6 @@
 
 给你 **旋转后** 的数组 `nums` 和一个整数 `target` ，如果 `nums` 中存在这个目标值 `target` ，则返回它的下标，否则返回 `-1` 。
 
- 
-
 **示例 1：**
 
 ```
@@ -29,16 +27,31 @@
 输出：-1
 ```
 
- 
-
 **C++**
 
 ```C++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if (nums.empty()) return -1;
+        int l = 0, r = nums.size() - 1;
+        while (l < r) {
+            int mid = l + r + 1 >> 1;
+            if (nums[mid] >= nums[0]) l = mid;
+            else r = mid - 1;
+        }
 
+        if (target >= nums[0]) l = 0;
+        else l = r + 1, r = nums.size() - 1;
+
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (nums[mid] >= target) r = mid;
+            else l = mid + 1;
+        }
+
+        if (nums[r] == target) return r;
+        return -1;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
