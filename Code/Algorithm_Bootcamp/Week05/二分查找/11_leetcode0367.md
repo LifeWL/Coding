@@ -4,8 +4,6 @@
 
 **进阶：不要** 使用任何内置的库函数，如 `sqrt` 。
 
- 
-
 **示例 1：**
 
 ```
@@ -23,10 +21,16 @@
  **C++**
 
 ```c++
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        int l = 1, r = num;
+        while (l < r) {
+            int mid = l + 1ll + r >> 1;
+            if (mid <= num / mid) l = mid;
+            else r = mid - 1;
+        }
+        return r * r == num;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
