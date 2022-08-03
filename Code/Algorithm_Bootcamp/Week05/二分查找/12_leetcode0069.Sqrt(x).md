@@ -6,8 +6,6 @@
 
 **注意：**不允许使用任何内置指数函数和算符，例如 `pow(x, 0.5)` 或者 `x ** 0.5` 。
 
- 
-
 **示例 1：**
 
 ```
@@ -26,10 +24,16 @@
  **C++**
 
 ```C++
+class Solution {
+public:
+    int mySqrt(int x) {
+        int l = 0, r = x;
+        while (l < r) {
+            int mid = l + 1ll + r >> 1;
+            if (mid <= x / mid) l = mid;
+            else r = mid - 1;
+        }
+        return r;
+    }
+};
 ```
-
-**Java**
-
-```Java
-```
-
