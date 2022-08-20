@@ -6,8 +6,6 @@
 
 N 叉树输入按层序遍历序列化表示，每组子节点由空值分隔（请参见示例）。
 
- 
-
 **示例 1：**
 
 ![img](https://assets.leetcode.com/uploads/2018/10/12/narytreeexample.png)
@@ -29,5 +27,26 @@ N 叉树输入按层序遍历序列化表示，每组子节点由空值分隔（
  **C++**
 
 ```c++
+class Solution {
+public:
+    vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
+        unordered_map<string, int> hash;
+        for (int i = 0; i < list1.size(); i ++ ) hash[list1[i]] = i;
+        int sum = INT_MAX;
+        vector<string> res;
+        for (int i = 0; i < list2.size(); i ++ ) {
+            string& s = list2[i];
+            if (hash.count(s)) {
+                int k = i + hash[s];
+                if (k < sum) {
+                    sum = k;
+                    res = {s};
+                } else if (k == sum) {
+                    res.push_back(s);
+                }
+            }
+        }
+        return res;
+    }
+};
 ```
-
