@@ -2,8 +2,6 @@
 
 求 `1+2+...+n` ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
 
- 
-
 **示例 1：**
 
 ```
@@ -18,7 +16,6 @@
 输出: 45
 ```
 
-
 ```C++
 class Solution {
 public:
@@ -29,3 +26,13 @@ public:
 };
 ```
 
+```cpp
+class Solution {
+public:
+    int getSum(int n) {
+        int res = n;
+        n > 0 && (res += getSum(n - 1));
+        return res;
+    }
+};
+```
