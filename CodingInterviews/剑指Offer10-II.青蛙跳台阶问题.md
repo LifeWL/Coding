@@ -5,17 +5,18 @@
 答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
 
 示例 1：
+
 ```
 输入：n = 2
 输出：2
 ```
+
 示例 2：
 
 ```
 输入：n = 7
 输出：21
 ```
-
 
 示例 3：
 
@@ -24,20 +25,17 @@
 输出：1
 ```
 
-
 ```c++
 class Solution {
 public:
-	int numWays(int n) {
-		int a = 0, b = 1, c = 1;
-		for (int i = 0; i < n; ++i)
-		{
-			a = b; 
-            b = c;
-			c = (a + b) % 1000000007;
-		}
-		return b;
+    int numWays(int n) {
+        int a = 0, b = 1, c = 1;
+	for (int i = 0; i < n; ++i) {
+	    a = b; 
+	    b = c;
+	    c = (a + b) % 1000000007;
 	}
+	return b;
+    }
 };
 ```
-
