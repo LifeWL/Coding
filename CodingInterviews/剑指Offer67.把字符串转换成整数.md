@@ -2,8 +2,6 @@
 
 写一个函数 StrToInt，实现把字符串转换成整数这个功能。不能使用 atoi 或者其他类似的库函数。
 
- 
-
 首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
 
 当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
@@ -60,45 +58,32 @@
      因此返回 INT_MIN (−231) 。
 ```
 
- 
-
 ```C++
 class Solution {
 public:
     int strToInt(string str) {
-        int n = str.size();
-        if (n == 0) return 0;
-        int i = 0;
-        while (i < n && str[i] == ' ') i++;
-        if (i == n) return 0;
+        int k = 0;
+        while (k < str.size() && str[k] == ' ') k ++ ;
+        long long res = 0;
 
-        int sign = 1;
-        char c = str[i];
-        if (c == '-') {
-            sign = -1;
-            i++;
-        } else if (c == '+') {
-            sign = 1;
-            i++;
+        int minus = 1;
+        if (k < str.size())
+        {
+            if (str[k] == '-') minus = -1, k ++ ;
+            else if (str[k] == '+') k ++ ;
+        }
+        while (k < str.size() && str[k] >= '0' && str[k] <= '9')
+        {
+            res = res * 10 + str[k] - '0';
+            if (res > 1e11) break;
+            k ++ ;
         }
 
-        int max = 214748364;
-        int result = 0;
-        while (i < n && str[i] >= '0' && str[i] <= '9') {
-            int d = str[i] - '0';
-            if (result > max) {
-                if (sign == 1) return INT_MAX;
-                else return INT_MIN;
-            }
-            if (result == max) {
-                if (sign == 1 && d >= 7) return INT_MAX;
-                if (sign == -1 && d >= 8) return INT_MIN;
-            }
-            result = result * 10 + d;
-            i++;
-        }
-        return sign * result;
+        res *= minus;
+        if (res > INT_MAX) res = INT_MAX;
+        if (res < INT_MIN) res = INT_MIN;
+
+        return res;
     }
 };
 ```
-
