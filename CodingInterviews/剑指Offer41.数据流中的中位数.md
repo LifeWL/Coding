@@ -31,9 +31,32 @@
 输出：[null,null,2.00000,null,2.50000]
 ```
 
+```cpp
+class Solution {
+public:
+    priority_queue<int> max_heap;
+    priority_queue<int, vector<int>, greater<int> > min_heap;
+    void insert(int num){
+       max_heap.push(num);
+       while(min_heap.size() && min_heap.top() < max_heap.top()) {
+           int minv = min_heap.top(), maxv = max_heap.top();
+           min_heap.pop(), max_heap.pop();
+           min_heap.push(maxv), max_heap.push(minv);
+       }
+       if (max_heap.size() > min_heap.size() + 1) {
+           min_heap.push(max_heap.top()), max_heap.pop();
+       }
+    }
+
+    double getMedian(){
+        if (max_heap.size() + min_heap.size() & 1) return max_heap.top();
+        return (max_heap.top() + min_heap.top()) / 2.0;
+    }
+};
+```
 
 
- ```C++
+```C++
  class MedianFinder {
  public:
      /** initialize your data structure here. */
@@ -43,21 +66,20 @@
      MedianFinder() {
          n = 0;
      }
-     
+   
      void addNum(int num) {
-         if(small.empty()){small.push(num);n++;return;}
-         if(num<=small.top()){small.push(num);n++;}
-         else {big.push(num);n++;}
-         if(small.size()-big.size()==2){big.push(small.top());small.pop();}
-         if(big.size()-small.size()==2){small.push(big.top());big.pop();}
+         if (small.empty()){ small.push(num); n++; return ; }
+         if (num<=small.top()) { small.push(num), n++; }
+         else { big.push(num), n++;}
+         if (small.size() - big.size() == 2){ big.push(small.top()), small.pop();}
+         if (big.size() - small.size() == 2){ small.push(big.top()), big.pop();}
      }
-     
+   
      double findMedian() {
-         if(n%2){
-             if(small.size()>big.size())return small.top();
+         if (n % 2){
+             if (small.size()>big.size()) return small.top();
              return big.top();
-         }
-         else{
+         } else {
              return ((long long)small.top() + big.top()) * 0.5;
          }
      }
@@ -70,5 +92,4 @@
   * double param_2 = obj->findMedian();
   */
  
- ```
-
+```
