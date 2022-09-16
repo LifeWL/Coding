@@ -2,8 +2,6 @@
 
 实现 [pow(*x*, *n*)](https://www.cplusplus.com/reference/valarray/pow/) ，即计算 x 的 n 次幂函数（即，xn）。不得使用库函数，同时不需要考虑大数问题。
 
- 
-
 **示例 1：**
 
 ```
@@ -26,7 +24,23 @@
 解释：2-2 = 1/22 = 1/4 = 0.25
 ```
 
- 
+```cpp
+class Solution {
+public:
+    double Power(double base, int exponent) {
+        typedef long long LL;
+        bool is_minus = exponent < 0;
+        double res = 1;
+        for (LL k = abs((LL)exponent); k; k >>= 1) {
+            if (k & 1) res *= base;
+            base *= base;
+        }
+        if (is_minus) res = 1 / res;
+        return res;
+    }
+};
+```
+
 ```C++
 class Solution {
 public:
@@ -47,4 +61,3 @@ public:
     }
 };
 ```
-
