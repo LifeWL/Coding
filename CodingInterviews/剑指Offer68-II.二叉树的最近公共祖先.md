@@ -8,8 +8,6 @@
 
 ![img](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/15/binarytree.png)
 
- 
-
 **示例 1:**
 
 ```
@@ -31,6 +29,20 @@
 - 所有节点的值都是唯一的。
 - p、q 为不同节点且均存在于给定的二叉树中。
 
+```cpp
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root) return NULL;
+        if (p == root || q == root) return root;
+        auto left = lowestCommonAncestor(root->left, p, q);
+        auto right = lowestCommonAncestor(root->right, p, q);
+        if (left && right) return root;
+        if (left) return left;
+        else return right;
+    }
+};
+```
 
 ```C++
 /**
@@ -54,4 +66,3 @@ public:
     }
 };
 ```
-
