@@ -11,7 +11,6 @@
 输出：2 或 3 
 ```
 
-
 ```c++
 哈希表
 class Solution {
@@ -28,7 +27,7 @@ public:
 ```
 
 ```c++
-最佳解法
+比较难想到的解法，因为数字都在0~n-1 而一共有n个，所以可以通过将数字放到对应坐标上，一旦发现数字与对应坐标不一致，即找到重复的数字
 class Solution {
 public:
     int findRepeatNumber(vector<int>& nums) {
