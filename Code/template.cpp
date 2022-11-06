@@ -60,3 +60,35 @@ vector<int> add(vector<int> &A, vector<int> &B)
     if (t) C.push_back(t);
     return C;
 }
+
+
+//单链表
+int head, e[N], ne[N], idx;
+
+void init()
+{
+    head = -1;
+    idx = 0;
+}
+
+//头插入
+void insert(int a)
+{
+    e[idx] = a, ne[idx] = head, head = idx++;
+}
+
+//插入到k节点后
+void insert(int k, int a)
+{
+    e[idx] = a, ne[idx] = ne[k], ne[k] = idx++;
+}
+
+void remove()
+{
+    head = ne[head];
+}
+
+void remove(int k)
+{
+    ne[k] = ne[ne[k]];
+}
