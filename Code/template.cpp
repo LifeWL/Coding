@@ -114,3 +114,38 @@ void remove(int k)
     l[r[k]] = l[k];
     r[l[k]] = r[k]; 
 }
+
+
+//栈
+int stk[N], tt = 0;
+//插入一个数
+stk[++tt] = x;
+//栈顶弹出
+tt--;
+//栈顶值
+stk[tt];
+//如果栈不为空
+if (tt > 0) {}
+
+//队列
+int q[N], hh = 0, tt = -1;
+q[++tt] = x;
+//从对头弹出一个数
+hh++;
+//取对头的值
+q[hh];
+//队列不为空
+if (hh <= tt) {}
+
+//循环队列
+int q[N], hh = 0, tt = 0;
+//向队尾插入一个数
+q[tt++] = x;
+if (tt == N) tt = 0;
+//弹出队头的数
+hh++;
+if (hh == N) hh = 0;
+//队头的值
+q[hh];
+//队列不为空
+if (hh != tt) {}
