@@ -214,3 +214,38 @@ int query(char *str)
     }
     return cnt[p];
 }
+
+
+//并查集
+int p[N];
+
+int find(int x)
+{
+    if (p[x] != x) p[x] = find(p[x]);
+    return p[x];
+}
+
+for (int i = 1; i <= n; i++) p[i] = i;
+
+p[find(a)] = find(b);
+
+
+int p[N], size[N];
+
+int find(int x)
+{
+    if (p[x] != x) p[x] = find(p[x]);
+    return p[x];
+}
+
+
+for (int i = 1; i <= n; i ++ )
+{
+    p[i] = i;
+    size[i] = 1;
+}
+
+
+size[find(b)] += size[find(a)];
+p[find(a)] = find(b);
+
