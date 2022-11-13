@@ -216,7 +216,7 @@ int query(char *str)
 }
 
 
-//并查集
+//普通并查集
 int p[N];
 
 int find(int x)
@@ -230,6 +230,7 @@ for (int i = 1; i <= n; i++) p[i] = i;
 p[find(a)] = find(b);
 
 
+//维护size的并查集
 int p[N], size[N];
 
 int find(int x)
@@ -249,3 +250,25 @@ for (int i = 1; i <= n; i ++ )
 size[find(b)] += size[find(a)];
 p[find(a)] = find(b);
 
+//维护到祖宗节点距离的并查集
+int p[N], d[N];
+
+int find(int x)
+{
+    if (p[x] != x)
+    {
+        int u = find(p[x]);
+        d[x] += d[p[x]];
+        p[x] = u;
+    }
+    return p[x];
+}
+
+for (int i = 1; i <= n; ++i)
+{
+    p[i] = i;
+    d[i] = 0;
+}
+
+p[find(a)] = find(b);
+d[find(a)] = distance;
