@@ -329,3 +329,17 @@ bool find(int x)
     }
     return false;
 }
+
+//开放寻址哈希
+int h[N];
+
+int find(int x)
+{
+    int t = (x % N + N) % N;
+    while (h[t] != null && h[t] != x)
+    {
+        t++;
+        if (t == N) t = 0;
+    }
+    return t;
+}
