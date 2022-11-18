@@ -61,6 +61,21 @@ vector<int> add(vector<int> &A, vector<int> &B)
     return C;
 }
 
+vector<int> sub(vector<int> &A, vector<int> &B)
+{
+    vector<int> C;
+    for (int i = 0, t = 0; i < A.size(); i++)
+    {
+        t = A[i] - t;
+        if (i < B.size()) t -= B[i];
+        C.push_back((t + 10) % 10);
+        if (t < 0) t = 1;
+        else t = 0;
+    }
+    while (C.size() > 1 && C.back() == 0) C.pop_back();
+    return C;
+}
+
 
 //单链表
 int head, e[N], ne[N], idx;
