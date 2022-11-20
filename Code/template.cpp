@@ -1,3 +1,4 @@
+//快排
 void quick_sort(int q[], int l, int r)
 {
     if (l >= r) return;
@@ -11,6 +12,7 @@ void quick_sort(int q[], int l, int r)
     quick_sort(q, l, j), quick_sort(q, j + 1, r);
 }
 
+//归并排序
 void merge_sort(int q[], int l, int r)
 {
     if (l >= r) return;
@@ -31,6 +33,7 @@ void merge_sort(int q[], int l, int r)
     }
 }
 
+//二分
 bool check(double x){}
 
 double bsearch_3(double l, double r)
@@ -45,9 +48,9 @@ double bsearch_3(double l, double r)
     return l;
 }
 
+//高精度加法
 vector<int> add(vector<int> &A, vector<int> &B)
-{
-    if (A.size() < B.size()) return add(B, A);
+{ if (A.size() < B.size()) return add(B, A);
     vector<int> C;
     int t = 0;
     for (int i = 0; i < A.size(); i++)
@@ -61,6 +64,7 @@ vector<int> add(vector<int> &A, vector<int> &B)
     return C;
 }
 
+//高精度减法
 vector<int> sub(vector<int> &A, vector<int> &B)
 {
     vector<int> C;
@@ -76,6 +80,7 @@ vector<int> sub(vector<int> &A, vector<int> &B)
     return C;
 }
 
+//高精度乘法
 vector<int> mul(vector<int> &A, int b)
 {
     vector<int> C;
@@ -87,6 +92,22 @@ vector<int> mul(vector<int> &A, int b)
         t /= 10;
     }
     while (C.size() > 1 && C.back() == 0) C.pop_back();
+    return C;
+}
+
+//高精度除法
+vector<int> div(vector<int> &A, int b, int &r)
+{
+    vector<int> C;
+    r = 0;
+    for (int i = A.size() - 1; i >= 0; i--)
+    {
+        r = r * 10 + A[i];
+        C.push_back(r / b);
+        r %= b;
+    }
+    reverse(C.begin(), C.end());
+    while(C.size() > 1 && C.back() == 0) c.pop_back();
     return C;
 }
 
