@@ -127,6 +127,10 @@ vector<int> div(vector<int> &A, int b, int &r)
 //给以(x1, y1)为左上角，(x2, y2)为右下角的子矩阵中的所有元素加上c：
 //S[x1, y1] += c, S[x2 + 1, y1] -= c, S[x1, y2 + 1] -= c, S[x2 + 1, y2 + 1] += c
 
+//位运算
+//求n的第k位数字: n >> k & 1
+//返回n的最后一位1：lowbit(n) = n & -n
+
 //单链表
 int head, e[N], ne[N], idx;
 
