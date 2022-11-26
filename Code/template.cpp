@@ -131,6 +131,14 @@ vector<int> div(vector<int> &A, int b, int &r)
 //求n的第k位数字: n >> k & 1
 //返回n的最后一位1：lowbit(n) = n & -n
 
+//双指针
+for (int i = 0, j = 0; i < n; i ++ )
+{
+    while (j < i && check(i, j)) j ++ ;
+
+    // 具体问题的逻辑
+}
+
 //单链表
 int head, e[N], ne[N], idx;
 
