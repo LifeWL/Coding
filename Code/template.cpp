@@ -560,7 +560,7 @@ bool topsort()
     return tt == n - 1;
 }
 
-//朴素dijkstra算法 —— 模板题 AcWing 849. Dijkstra求最短路 I
+//朴素dijkstra算法
 //时间复杂是 O(n2+m)O(n2+m), nn 表示点数，mm 表示边数
 int g[N][N];  // 存储每条边
 int dist[N];  // 存储1号点到每个点的最短距离
@@ -590,7 +590,7 @@ int dijkstra()
     return dist[n];
 }
 
-//堆优化版dijkstra —— 模板题 AcWing 850. Dijkstra求最短路 II
+//堆优化版dijkstra
 //时间复杂度 O(mlogn)O(mlogn), nn 表示点数，mm 表示边数
 typedef pair<int, int> PII;
 
@@ -632,7 +632,7 @@ int dijkstra()
     return dist[n];
 }
 
-//Bellman-Ford算法 —— 模板题 AcWing 853. 有边数限制的最短路
+//Bellman-Ford算法
 //时间复杂度 O(nm)O(nm), nn 表示点数，mm 表示边数
 
 int n, m;       // n表示点数，m表示边数
@@ -664,7 +664,7 @@ int bellman_ford()
     return dist[n];
 }
 
-//spfa 算法（队列优化的Bellman-Ford算法） —— 模板题 AcWing 851. spfa求最短路
+//spfa 算法（队列优化的Bellman-Ford算法
 //时间复杂度 平均情况下 O(m)O(m)，最坏情况下 O(nm)O(nm), nn 表示点数，mm 表示边数
 int n;      // 总点数
 int h[N], w[N], e[N], ne[N], idx;       // 邻接表存储所有边
@@ -707,7 +707,7 @@ int spfa()
     return dist[n];
 }
 
-//spfa判断图中是否存在负环 —— 模板题 AcWing 852. spfa判断负环
+//spfa判断图中是否存在负环
 //时间复杂度是 O(nm)O(nm), nn 表示点数，mm 表示边数
 int n;      // 总点数
 int h[N], w[N], e[N], ne[N], idx;       // 邻接表存储所有边
@@ -754,7 +754,7 @@ bool spfa()
     return false;
 }
 
-//floyd算法 —— 模板题 AcWing 854. Floyd求最短路
+//floyd算法
 //时间复杂度是 O(n3)O(n3), nn 表示点数
 //初始化：
     for (int i = 1; i <= n; i ++ )
@@ -771,7 +771,7 @@ void floyd()
                 d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
 }
 
-//朴素版prim算法 —— 模板题 AcWing 858. Prim算法求最小生成树
+//朴素版prim算法
 //时间复杂度是 O(n2+m)O(n2+m), nn 表示点数，mm 表示边数
 int n;      // n表示点数
 int g[N][N];        // 邻接矩阵，存储所有边
