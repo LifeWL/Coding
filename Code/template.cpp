@@ -918,3 +918,13 @@ for (int i = 1; i <= n1; i ++ )
     memset(st, false, sizeof st);
     if (find(i)) res ++ ;
 }
+
+//试除法判定质数
+bool is_prime(int x)
+{
+    if (x < 2) return false;
+    for (int i = 2; i <= x / i; i ++ )
+        if (x % i == 0)
+            return false;
+    return true;
+}
