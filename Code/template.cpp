@@ -943,29 +943,17 @@ void divide(int x)
     cout << endl;
 }
 
-//拓扑排序
-//时间复杂度 O(n+m)O(n+m), nn 表示点数，mm 表示边数
-bool topsort()
+//朴素筛法求素数
+int primes[N], cnt;     // primes[]存储所有素数
+bool st[N];         // st[x]存储x是否被筛掉
+
+void get_primes(int n)
 {
-    int hh = 0, tt = -1;
-
-    // d[i] 存储点i的入度
-    for (int i = 1; i <= n; i ++ )
-        if (!d[i])
-            q[ ++ tt] = i;
-
-    while (hh <= tt)
+    for (int i = 2; i <= n; i ++ )
     {
-        int t = q[hh ++ ];
-
-        for (int i = h[t]; i != -1; i = ne[i])
-        {
-            int j = e[i];
-            if (-- d[j] == 0)
-                q[ ++ tt] = j;
-        }
+        if (st[i]) continue;
+        primes[cnt ++ ] = i;
+        for (int j = i + i; j <= n; j += i)
+            st[j] = true;
     }
-
-    // 如果所有点都入队了，说明存在拓扑序列；否则不存在拓扑序列。
-    return tt == n - 1;
 }
