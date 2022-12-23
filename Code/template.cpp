@@ -988,3 +988,8 @@ vector<int> get_divisors(int x)
     sort(res.begin(), res.end());
     return res;
 }
+
+//约数个数和约数之和
+//如果 N = p1^c1 * p2^c2 * ... *pk^ck
+//约数个数： (c1 + 1) * (c2 + 1) * ... * (ck + 1)
+//约数之和： (p1^0 + p1^1 + ... + p1^c1) * ... * (pk^0 + pk^1 + ... + pk^ck)
