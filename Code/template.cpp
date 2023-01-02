@@ -1120,6 +1120,7 @@ for (int i = 0; i < N; i ++ )
         if (!j) c[i][j] = 1;
         else c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % mod;
 
+
 //通过预处理逆元的方式求组合数
 //首先预处理出所有阶乘取模的余数fact[N]，以及所有阶乘取模的逆元infact[N]
 //如果取模的数是质数，可以用费马小定理求逆元
@@ -1141,4 +1142,41 @@ for (int i = 1; i < N; i ++ )
 {
     fact[i] = (LL)fact[i - 1] * i % mod;
     infact[i] = (LL)infact[i - 1] * qmi(i, mod - 2, mod) % mod;
+}
+
+
+//Lucas定理
+//若p是质数，则对于任意整数 1 <= m <= n，有：
+    C(n, m) = C(n % p, m % p) * C(n / p, m / p) (mod p)
+
+int qmi(int a, int k, int p)  // 快速幂模板
+{
+    int res = 1 % p;
+    while (k)
+    {
+        if (k & 1) res = (LL)res * a % p;
+        a = (LL)a * a % p;
+        k >>= 1;
+    }
+    return res;
+}
+
+int C(int a, int b, int p)  // 通过定理求组合数C(a, b)
+{
+    if (a < b) return 0;
+
+    LL x = 1, y = 1;  // x是分子，y是分母
+    for (int i = a, j = 1; j <= b; i --, j ++ )
+    {
+        x = (LL)x * i % p;
+        y = (LL) y * j % p;
+    }
+
+    return x * (LL)qmi(y, p - 2, p) % p;
+}
+
+int lucas(LL a, LL b, int p)
+{
+    if (a < p && b < p) return C(a, b, p);
+    return (LL)C(a % p, b % p, p) * lucas(a / p, b / p, p) % p;
 }
