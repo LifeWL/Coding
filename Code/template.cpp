@@ -1253,3 +1253,7 @@ res.push_back(1);
 for (int i = 0; i < cnt; i ++ )     // 用高精度乘法将所有质因子相乘
     for (int j = 0; j < sum[i]; j ++ )
         res = mul(res, primes[i]);
+
+
+//卡特兰数
+//给定n个0和n个1，它们按照某种顺序排成长度为2n的序列，满足任意前缀中0的个数都不少于1的个数的序列的数量为： Cat(n) = C(2n, n) / (n + 1)
