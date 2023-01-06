@@ -1263,3 +1263,56 @@ for (int i = 0; i < cnt; i ++ )     // 用高精度乘法将所有质因子相�
 //所谓采取最优策略是指，若在某一局面下存在某种行动，使得行动后对面面临必败局面，则优先采取该行动。同时，这样的局面被称为必胜。我们讨论的博弈问题一般都只考虑理想情况，即两人均无失误，都采取最优策略行动时游戏的结果。
 //NIM博弈不存在平局，只有先手必胜和先手必败两种情况。
 //定理： NIM博弈先手必胜，当且仅当 A1 ^ A2 ^ … ^ An != 0
+
+
+//树状数组
+int n;
+int a[N];
+int tr[N];
+int Greater[N], lower[N];
+
+int lowbit(int x)
+{
+    return x & -x;
+}
+
+void add(int x, int c)
+{
+    for (int i = x; i <= n; i += lowbit(i)) tr[i] += c;
+}
+
+int sum(int x)
+{
+    int res = 0;
+    for (int i = x; i; i -= lowbit(i)) res += tr[i];
+    return res;
+}
+
+int main()
+{
+    scanf("%d", &n);
+
+    for (int i = 1; i <= n; i ++ ) scanf("%d", &a[i]);
+
+    for (int i = 1; i <= n; i ++ )
+    {
+        int y = a[i];
+        Greater[i] = sum(n) - sum(y);
+        lower[i] = sum(y - 1);
+        add(y, 1);
+    }
+
+    memset(tr, 0, sizeof tr);
+    LL res1 = 0, res2 = 0;
+    for (int i = n; i; i -- )
+    {
+        int y = a[i];
+        res1 += Greater[i] * (LL)(sum(n) - sum(y));
+        res2 += lower[i] * (LL)(sum(y - 1));
+        add(y, 1);
+    }
+
+    printf("%lld %lld\n", res1, res2);
+
+    return 0;
+}
