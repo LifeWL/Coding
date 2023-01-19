@@ -2594,3 +2594,157 @@ int main()
 
     return 0;
 }
+
+//点分树
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long LL;
+
+const int N = 150010, M = N * 2;
+
+int n, m, A;
+int h[N], e[M], w[M], ne[M], idx;
+int age[N];
+bool st[N];
+struct Father
+{
+    int u, num;
+    LL dist;
+};
+vector<Father> f[N];
+struct Son
+{
+    int age;
+    LL dist;
+    bool operator< (const Son& t) const
+    {
+        return age < t.age;
+    }
+};
+vector<Son> son[N][3];
+
+void add(int a, int b, int c)
+{
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+}
+
+int get_size(int u, int fa)
+{
+    if (st[u]) return 0;
+    int res = 1;
+    for (int i = h[u]; ~i; i = ne[i])
+        if (e[i] != fa)
+            res += get_size(e[i], u);
+    return res;
+}
+
+int get_wc(int u, int fa, int tot, int& wc)
+{
+    if (st[u]) return 0;
+    int sum = 1, ms = 0;
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (j == fa) continue;
+        int t = get_wc(j, u, tot, wc);
+        ms = max(ms, t);
+        sum += t;
+    }
+    ms = max(ms, tot - sum);
+    if (ms <= tot / 2) wc = u;
+    return sum;
+}
+
+void get_dist(int u, int fa, LL dist, int wc, int k, vector<Son>& p)
+{
+    if (st[u]) return;
+    f[u].push_back({wc, k, dist});
+    p.push_back({age[u], dist});
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (j == fa) continue;
+        get_dist(j, u, dist + w[i], wc, k, p);
+    }
+}
+
+void calc(int u)
+{
+    if (st[u]) return;
+    get_wc(u, -1, get_size(u, -1), u);
+    st[u] = true;
+
+    for (int i = h[u], k = 0; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (st[j]) continue;
+        auto& p = son[u][k];
+        p.push_back({-1, 0}), p.push_back({A + 1, 0});
+        get_dist(j, -1, w[i], u, k, p);
+        k ++ ;
+        sort(p.begin(), p.end());
+        for (int i = 1; i < p.size(); i ++ ) p[i].dist += p[i - 1].dist;
+    }
+
+    for (int i = h[u]; ~i; i = ne[i]) calc(e[i]);
+}
+
+LL query(int u, int l, int r)
+{
+    LL res = 0;
+    for (auto& t: f[u])
+    {
+        int g = age[t.u];
+        if (g >= l && g <= r) res += t.dist;
+        for (int i = 0; i < 3; i ++ )
+        {
+            if (i == t.num) continue;
+            auto& p = son[t.u][i];
+            if (p.empty()) continue;
+            int a = lower_bound(p.begin(), p.end(), Son({l, -1})) - p.begin();
+            int b = lower_bound(p.begin(), p.end(), Son({r + 1, -1})) - p.begin();
+            res += t.dist * (b - a) + p[b - 1].dist - p[a - 1].dist;
+        }
+    }
+
+    for (int i = 0; i < 3; i ++ )
+    {
+        auto& p = son[u][i];
+        if (p.empty()) continue;
+        int a = lower_bound(p.begin(), p.end(), Son({l, -1})) - p.begin();
+        int b = lower_bound(p.begin(), p.end(), Son({r + 1, -1})) - p.begin();
+        res += p[b - 1].dist - p[a - 1].dist;
+    }
+
+    return res;
+}
+
+int main()
+{
+    scanf("%d%d%d", &n, &m, &A);
+    for (int i = 1; i <= n; i ++ ) scanf("%d", &age[i]);
+    memset(h, -1, sizeof h);
+    for (int i = 0; i < n - 1; i ++ )
+    {
+        int a, b, c;
+        scanf("%d%d%d", &a, &b, &c);
+        add(a, b, c), add(b, a, c);
+    }
+    calc(1);
+    LL res = 0;
+    while (m -- )
+    {
+        int u, a, b;
+        scanf("%d%d%d", &u, &a, &b);
+        int l = (a + res) % A, r = (b + res) % A;
+        if (l > r) swap(l, r);
+        res = query(u, l, r);
+        printf("%lld\n", res);
+    }
+
+    return 0;
+}
