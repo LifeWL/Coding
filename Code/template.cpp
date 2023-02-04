@@ -3027,6 +3027,7 @@ int main()
 //            (3) 有源汇上下界最小流
 //        1.7.3 多源汇最大流
 
+// EK最大流
 #include <iostream>
 #include <cstring>
 #include <algorithm>
@@ -3098,6 +3099,7 @@ int main()
     return 0;
 }
 
+//Dinic/ISAP求最大流
 #include <iostream>
 #include <cstring>
 #include <algorithm>
