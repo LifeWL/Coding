@@ -3182,6 +3182,7 @@ int main()
     return 0;
 }
 
+//最大流之二分图匹配
 #include <iostream>
 #include <cstring>
 #include <algorithm>
@@ -3373,6 +3374,7 @@ int main()
     return 0;
 }
 
+////无源汇上下界可行流
 #include <iostream>
 #include <cstring>
 #include <algorithm>
@@ -3467,6 +3469,7 @@ int main()
     return 0;
 }
 
+//有源汇上下界最大流
 #include <iostream>
 #include <cstring>
 #include <algorithm>
