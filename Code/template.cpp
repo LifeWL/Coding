@@ -4973,7 +4973,7 @@ int main()
     return 0;
 }
 
-//最大密度子图
+//最小割之最大密度子图
 #include <iostream>
 #include <cstring>
 #include <algorithm>
@@ -5066,3 +5066,5 @@ int main()
 
     return 0;
 }
+
+//最小割之最小点权覆盖集
