@@ -6435,3 +6435,99 @@ int main()
     printf("%d\n", EK());
     return 0;
 }
+
+//费用流之上下界可行流
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 1010, M = 24010, INF = 1e8;
+
+int n, m, S, T;
+int h[N], e[M], f[M], w[M], ne[M], idx;
+int q[N], d[N], pre[N], incf[N];
+bool st[N];
+
+void add(int a, int b, int c, int d)
+{
+    e[idx] = b, f[idx] = c, w[idx] = d, ne[idx] = h[a], h[a] = idx ++ ;
+    e[idx] = a, f[idx] = 0, w[idx] = -d, ne[idx] = h[b], h[b] = idx ++ ;
+}
+
+bool spfa()
+{
+    int hh = 0, tt = 1;
+    memset(d, 0x3f, sizeof d);
+    memset(incf, 0, sizeof incf);
+    q[0] = S, d[S] = 0, incf[S] = INF;
+    while (hh != tt)
+    {
+        int t = q[hh ++ ];
+        if (hh == N) hh = 0;
+        st[t] = false;
+
+        for (int i = h[t]; ~i; i = ne[i])
+        {
+            int ver = e[i];
+            if (f[i] && d[ver] > d[t] + w[i])
+            {
+                d[ver] = d[t] + w[i];
+                pre[ver] = i;
+                incf[ver] = min(f[i], incf[t]);
+                if (!st[ver])
+                {
+                    q[tt ++ ] = ver;
+                    if (tt == N) tt = 0;
+                    st[ver] = true;
+                }
+            }
+        }
+    }
+    return incf[T] > 0;
+}
+
+int EK()
+{
+    int cost = 0;
+    while (spfa())
+    {
+        int t = incf[T];
+        cost += t * d[T];
+        for (int i = T; i != S; i = e[pre[i] ^ 1])
+        {
+            f[pre[i]] -= t;
+            f[pre[i] ^ 1] += t;
+        }
+    }
+    return cost;
+}
+
+int main()
+{
+    scanf("%d%d", &n, &m);
+    S = 0, T = n + 2;
+    memset(h, -1, sizeof h);
+    int last = 0;
+    for (int i = 1; i <= n; i ++ )
+    {
+        int cur;
+        scanf("%d", &cur);
+        if (last > cur) add(S, i, last - cur, 0);
+        else if (last < cur) add(i, T, cur - last, 0);
+        add(i, i + 1, INF - cur, 0);
+        last = cur;
+    }
+    add(S, n + 1, last, 0);
+
+    while (m -- )
+    {
+        int a, b, c;
+        scanf("%d%d%d", &a, &b, &c);
+        add(b + 1, a, INF, c);
+    }
+
+    printf("%d\n", EK());
+    return 0;
+}
