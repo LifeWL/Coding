@@ -6531,3 +6531,182 @@ int main()
     printf("%d\n", EK());
     return 0;
 }
+
+//2-SAT
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <cstdio>
+
+using namespace std;
+
+const int N = 2000010, M = 2000010;
+
+int n, m;
+int h[N], e[M], ne[M], idx;
+int dfn[N], low[N], ts, stk[N], top;
+int id[N], cnt;
+bool ins[N];
+
+void add(int a, int b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx ++ ;
+}
+
+void tarjan(int u)
+{
+    dfn[u] = low[u] = ++ ts;
+    stk[ ++ top] = u, ins[u] = true;
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (!dfn[j])
+        {
+            tarjan(j);
+            low[u] = min(low[u], low[j]);
+        } else if (ins[j]) low[u] = min(low[u], dfn[j]);
+    }
+
+    if (low[u] == dfn[u])
+    {
+        int y;
+        cnt ++ ;
+        do
+        {
+            y = stk[top -- ], ins[y] = false, id[y] = cnt;
+        } while (y != u);
+    }
+}
+
+int main()
+{
+    scanf("%d%d", &n, &m);
+    memset(h, -1, sizeof h);
+
+    while (m -- )
+    {
+        int i, a, j, b;
+        scanf("%d%d%d%d", &i, &a, &j, &b);
+        i --, j -- ;
+        add(2 * i + !a, 2 * j + b);
+        add(2 * j + !b, 2 * i + a);
+    }
+
+    for (int i = 0; i < n * 2; i ++ )
+        if (!dfn[i])
+            tarjan(i);
+
+    for (int i = 0; i < n; i ++ )
+        if (id[i * 2] == id[i * 2 + 1])
+        {
+            puts("IMPOSSIBLE");
+            return 0;
+        }
+
+    puts("POSSIBLE");
+    for (int i = 0; i < n; i ++ )
+        if (id[i * 2] < id[i * 2 + 1]) printf("0 ");
+        else printf("1 ");
+
+    return 0;
+}
+
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 2010, M = 4000010;
+
+int n;
+int h[N], e[M], ne[M], idx;
+int dfn[N], low[N], ts, stk[N], top;
+int id[N], cnt;
+bool ins[N];
+
+struct Wedding
+{
+    int s, t, d;
+}w[N];
+
+bool is_overlap(int a, int b, int c, int d)
+{
+    return d > a && b > c;
+}
+
+void add(int a, int b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx ++ ;
+}
+
+void tarjan(int u)
+{
+    dfn[u] = low[u] = ++ ts;
+    stk[ ++ top] = u, ins[u] = true;
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (!dfn[j])
+        {
+            tarjan(j);
+            low[u] = min(low[u], low[j]);
+        } else if (ins[j]) low[u] = min(low[u], dfn[j]);
+    }
+    if (dfn[u] == low[u])
+    {
+        int y;
+        cnt ++ ;
+        do
+        {
+            y = stk[top -- ], ins[y] = false, id[y] = cnt;
+        }while (y != u);
+    }
+}
+
+int main()
+{
+    scanf("%d", &n);
+    memset(h, -1, sizeof h);
+    for (int i = 0; i < n; i ++ )
+    {
+        int s0, s1, t0, t1, d;
+        scanf("%d:%d %d:%d %d", &s0, &s1, &t0, &t1, &d);
+        w[i] = {s0 * 60 + s1, t0 * 60 + t1, d};
+    }
+
+    for (int i = 0; i < n; i ++ )
+        for (int j = 0; j < i; j ++ )
+        {
+            auto a = w[i], b = w[j];
+            if (is_overlap(a.s, a.s + a.d, b.s, b.s + b.d)) add(i, j + n), add(j, i + n);
+            if (is_overlap(a.s, a.s + a.d, b.t - b.d, b.t)) add(i, j), add(j + n, i + n);
+            if (is_overlap(a.t - a.d, a.t, b.s, b.s + b.d)) add(i + n, j + n), add(j, i);
+            if (is_overlap(a.t - a.d, a.t, b.t - b.d, b.t)) add(i + n, j), add(j + n, i);
+        }
+
+    for (int i = 0; i < n * 2; i ++ )
+        if (!dfn[i])
+            tarjan(i);
+
+    for (int i = 0; i < n; i ++ )
+        if (id[i] == id[i + n])
+        {
+            puts("NO");
+            return 0;
+        }
+
+    puts("YES");
+    for (int i = 0; i < n; i ++ )
+    {
+        auto a = w[i];
+        int s = a.s, t = a.t, d = a.d;
+        if (id[i] < id[i + n])
+            printf("%02d:%02d %02d:%02d\n", s / 60, s % 60, (s + d) / 60, (s + d) % 60);
+        else
+            printf("%02d:%02d %02d:%02d\n", (t - d) / 60, (t - d) % 60, t / 60, t % 60);
+    }
+
+    return 0;
+}
