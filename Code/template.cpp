@@ -6710,3 +6710,128 @@ int main()
 
     return 0;
 }
+
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 100010, M = 200010;
+
+int n, d, m;
+char s[N];
+int h[N], e[M], ne[M], idx;
+int dfn[N], low[N], ts, stk[N], top;
+int id[N], cnt;
+bool ins[N];
+int pos[10];
+
+struct Op
+{
+    int x, y;
+    char a, b;
+}op[M];
+
+int get(int x, char b, int t)
+{
+    char a = s[x] - 'a';
+    b -= 'A';
+    if (((a + 1) % 3 != b) ^ t) return x + n;
+    return x;
+}
+
+char put(int x, int t)
+{
+    int y = s[x] - 'a';
+    return 'A' + ((y + t) % 3);
+}
+
+void add(int a, int b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx ++ ;
+}
+
+void tarjan(int u)
+{
+    dfn[u] = low[u] = ++ ts;
+    stk[ ++ top] = u, ins[u] = true;
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (!dfn[j])
+        {
+            tarjan(j);
+            low[u] = min(low[u], low[j]);
+        } else if (ins[j]) low[u] = min(low[u], dfn[j]);
+    }
+
+    if (dfn[u] == low[u])
+    {
+        int y;
+        cnt ++ ;
+        do
+        {
+            y = stk[top -- ], ins[y] = false, id[y] = cnt;
+        } while (y != u);
+    }
+}
+
+
+bool work()
+{
+    memset(h, -1, sizeof h);
+    memset(dfn, 0, sizeof dfn);
+    idx = ts = cnt = 0;
+
+    for (int i = 0; i < m; i ++ )
+    {
+        int x = op[i].x - 1, y = op[i].y - 1;
+        char a = op[i].a, b = op[i].b;
+        if (s[x] != a + 32)
+        {
+            if (s[y] != b + 32) add(get(x, a, 0), get(y, b, 0)), add(get(y, b, 1), get(x, a, 1));
+            else add(get(x, a, 0), get(x, a, 1));
+        }
+    }
+
+    for (int i = 0; i < n * 2; i ++ )
+        if (!dfn[i])
+            tarjan(i);
+
+    for (int i = 0; i < n; i ++ )
+        if (id[i] == id[i + n])
+            return false;
+
+    for (int i = 0; i < n; i ++ )
+        if (id[i] < id[i + n]) putchar(put(i, 1));
+        else putchar(put(i, 2));
+
+    return true;
+}
+
+int main()
+{
+    scanf("%d%d", &n, &d);
+    scanf("%s", s);
+    for (int i = 0, j = 0; i < n; i ++ )
+        if (s[i] == 'x')
+            pos[j ++ ] = i;
+
+    scanf("%d", &m);
+    for (int i = 0; i < m; i ++ )
+        scanf("%d %c %d %c", &op[i].x, &op[i].a, &op[i].y, &op[i].b);
+
+    for (int k = 0; k < 1 << d; k ++ )
+    {
+        for (int i = 0; i < d; i ++ )
+            if (k >> i & 1) s[pos[i]] = 'a';
+            else s[pos[i]] = 'b';
+
+        if (work()) return 0;
+    }
+
+    puts("-1");
+    return 0;
+}
