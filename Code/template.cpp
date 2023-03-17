@@ -7043,3 +7043,51 @@ int main()
 
     return 0;
 }
+
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long LL;
+
+const int N = 210;
+
+int n, m;
+int C[N][N], g[N], f[N][N];
+
+void init()
+{
+    for (int i = 0; i <= n; i ++ )
+        for (int j = 0; j <= i; j ++ )
+            if (!j) C[i][j] = 1;
+            else C[i][j] = (C[i - 1][j - 1] + C[i - 1][j]) % m;
+
+    g[1] = 1, g[3] = 3;
+    for (int i = 4; i <= n; i ++ ) g[i] = g[i - 1] * i % m;
+}
+
+int main()
+{
+    cin >> n >> m;
+    init();
+
+    f[0][0] = 1;
+    for (int i = 1; i <= n; i ++ )
+        for (int j = 1; j <= i; j ++ )
+            for (int k = 1; k <= i - j + 1; k ++ )
+                f[i][j] = (f[i][j] + f[i - k][j - 1] * (LL)C[i - 1][k - 1] * g[k]) % m;
+
+    LL res = g[n - 1], p = 1;
+    for (int k = 2; k <= n; k ++ )
+    {
+        res += f[n][k] * p;
+        p = p * n % m;
+    }
+
+    cout << res % m << endl;
+
+    return 0;
+}
