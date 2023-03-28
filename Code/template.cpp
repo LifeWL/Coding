@@ -7871,3 +7871,93 @@ int main()
 
     return 0;
 }
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 1010;
+
+int n, m;
+int f[N][11], cost[N][N];
+int w[N], v[N], dist[N], l[N], r[N];
+struct Segment
+{
+    int root;
+    int tot_sum, tot_size;
+    int tree_sum, tree_size;
+
+    int get_cost()
+    {
+        int mid = v[root];
+        return mid * tree_size - tree_sum + tot_sum - tree_sum - (tot_size - tree_size) * mid;
+    }
+}stk[N];
+
+int merge(int x, int y)
+{
+    if (!x || !y) return x + y;
+    if (v[x] < v[y]) swap(x, y);
+    r[x] = merge(r[x], y);
+    if (dist[l[x]] < dist[r[x]]) swap(l[x], r[x]);
+    dist[x] = dist[r[x]] + 1;
+    return x;
+}
+
+int pop(int x)
+{
+    return merge(l[x], r[x]);
+}
+
+void get_cost(int u)
+{
+    int tt = 0, res = 0;
+    for (int i = u; i <= n; i ++ )
+    {
+        auto cur = Segment({i, v[i], 1, v[i], 1});
+        l[i] = r[i] = 0, dist[i] = 1;
+        while (tt && v[cur.root] < v[stk[tt].root])
+        {
+            res -= stk[tt].get_cost();
+            cur.root = merge(cur.root, stk[tt].root);
+            bool is_pop = cur.tot_size % 2 && stk[tt].tot_size % 2;
+            cur.tot_size += stk[tt].tot_size;
+            cur.tot_sum += stk[tt].tot_sum;
+            cur.tree_size += stk[tt].tree_size;
+            cur.tree_sum += stk[tt].tree_sum;
+            if (is_pop)
+            {
+                cur.tree_size --;
+                cur.tree_sum -= v[cur.root];
+                cur.root = pop(cur.root);
+            }
+            tt -- ;
+        }
+        stk[ ++ tt] = cur;
+        res += cur.get_cost();
+        cost[u][i] = min(cost[u][i], res);
+    }
+}
+
+int main()
+{
+    scanf("%d%d", &n, &m);
+    for (int i = 1; i <= n; i ++ ) scanf("%d", &w[i]);
+    memset(cost, 0x3f, sizeof cost);
+    for (int i = 1; i <= n; i ++ ) v[i] = w[i] - i;
+    for (int i = 1; i <= n; i ++ ) get_cost(i);
+    for (int i = 1; i <= n; i ++ ) v[i] = -w[i] - i;
+    for (int i = 1; i <= n; i ++ ) get_cost(i);
+
+    memset(f, 0x3f, sizeof f);
+    f[0][0] = 0;
+    for (int i = 1; i <= n; i ++ )
+        for (int j = 1; j <= m; j ++ )
+            for (int k = 1; k <= i; k ++ )
+                f[i][j] = min(f[i][j], f[i - k][j - 1] + cost[i - k + 1][i]);
+
+    printf("%d\n", f[n][m]);
+    return 0;
+}
