@@ -8393,3 +8393,50 @@ int main()
 
     return 0;
 }
+
+//最小表示法
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 2000010;
+
+int n;
+char a[N], b[N];
+
+int get_min(char s[])
+{
+    int i = 0, j = 1;
+    while (i < n && j < n)
+    {
+        int k = 0;
+        while (k < n && s[i + k] == s[j + k]) k ++ ;
+        if (k == n) break;
+        if (s[i + k] > s[j + k]) i += k + 1;
+        else j += k + 1;
+        if (i == j) j ++ ;
+    }
+    int k = min(i, j);
+    s[k + n] = 0;
+    return k;
+}
+
+int main()
+{
+    scanf("%s%s", a, b);
+    n = strlen(a);
+    memcpy(a + n, a, n);
+    memcpy(b + n, b, n);
+
+    int x = get_min(a), y = get_min(b);
+    if (strcmp(a + x, b + y)) puts("No");
+    else
+    {
+        puts("Yes");
+        puts(a + x);
+    }
+
+    return 0;
+}
