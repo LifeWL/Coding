@@ -8781,3 +8781,29 @@ int main()
     }
     return 0;
 }
+
+//积性函数
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long LL;
+
+int main()
+{
+    int n;
+    cin >> n;
+    LL res = n;
+    for (int i = 2; i <= n / i; i ++ )
+        if (n % i == 0)
+        {
+            int a = 0, p = i;
+            while (n % p == 0) a ++, n /= p;
+            res = res * (p + (LL)a * p - a) / p;
+        }
+    if (n > 1) res = res * ((LL)n + n - 1) / n;
+    cout << res << endl;
+    return 0;
+}
