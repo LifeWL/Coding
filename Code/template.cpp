@@ -8922,3 +8922,106 @@ int main()
     }
     return 0;
 }
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <cmath>
+#include <unordered_map>
+
+using namespace std;
+
+typedef long long LL;
+
+int qmi(int a, int b, int p)
+{
+    int res = 1;
+    while (b)
+    {
+        if (b & 1) res = (LL)res * a % p;
+        a = (LL)a * a % p;
+        b >>= 1;
+    }
+    return res;
+}
+
+int inv(int a, int p)
+{
+    return qmi(a, p - 2, p);
+}
+
+int exgcd(int a, int b, int& x, int& y)
+{
+    if (!b)
+    {
+        x = 1, y = 0;
+        return a;
+    }
+    int d = exgcd(b, a % b, y, x);
+    y -= a / b * x;
+    return d;
+}
+
+int bsgs(int a, int b, int p)
+{
+    if (1 % p == b % p) return 0;
+    int k = sqrt(p) + 1;
+    unordered_map<int, int> hash;
+    for (int i = 0, j = b % p; i < k; i ++ )
+    {
+        hash[j] = i;
+        j = (LL)j * a % p;
+    }
+    int ak = 1;
+    for (int i = 0; i < k; i ++ ) ak = (LL)ak * a % p;
+    for (int i = 1, j = ak; i <= k; i ++ )
+    {
+        if (hash.count(j)) return (LL)i * k - hash[j];
+        j = (LL)j * ak % p;
+    }
+    return -2;
+}
+
+int main()
+{
+    int T;
+    cin >> T;
+    while (T -- )
+    {
+        int p, a, b, x1, t;
+        cin >> p >> a >> b >> x1 >> t;
+        if (a == 0)
+        {
+            if (x1 == t) puts("1");
+            else if (b == t) puts("2");
+            else puts("-1");
+        }
+        else if (a == 1)
+        {
+            if (b == 0) puts(t == x1 ? "1" : "-1");
+            else
+            {
+                int x, y;
+                exgcd(b, p, x, y);
+                x = ((LL)x * (t - x1) % p + p) % p;
+                cout << x + 1 << endl;
+            }
+        }
+        else
+        {
+            int C = (LL)b * inv(a - 1, p) % p;
+            int A = (x1 + C) % p;
+            if (A == 0)
+            {
+                int u = (-C + p) % p;
+                puts(u == t ? "1" : "-1");
+            }
+            else
+            {
+                int B = (t + C) % p;
+                cout << bsgs(a, (LL)B * inv(A, p) % p, p) + 1 << endl;
+            }
+        }
+    }
+    return 0;
+}
