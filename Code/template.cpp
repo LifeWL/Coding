@@ -9025,3 +9025,26 @@ int main()
     }
     return 0;
 }
+
+//生成函数
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long LL;
+const int N = 510, P = 10007;
+
+char s[N];
+
+int main()
+{
+    scanf("%s", s);
+    LL n = 0;
+    for (int i = 0; s[i]; i ++ )
+        n = (n * 10 + s[i] - '0') % P;
+
+    cout << n * (n + 1) * (n + 2) / 6 % P << endl;
+    return 0;
+}
