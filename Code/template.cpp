@@ -9048,3 +9048,42 @@ int main()
     cout << n * (n + 1) * (n + 2) / 6 % P << endl;
     return 0;
 }
+
+//burnside引理与polya定理
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long LL;
+
+int gcd(int a, int b)
+{
+    return b ? gcd(b, a % b) : a;
+}
+
+LL power(int a, int b)
+{
+    LL res = 1;
+    while (b -- ) res *= a;
+    return res;
+}
+
+int main()
+{
+    int m, n;
+    while (cin >> m >> n, m || n)
+    {
+        LL res = 0;
+        for (int i = 0; i < n; i ++ )
+            res += power(m, gcd(n, i));
+        if (n % 2)
+            res += n * power(m, (n + 1) / 2);
+        else
+            res += n / 2 * (power(m, n / 2 + 1) + power(m, n / 2));
+        cout << res / n / 2 << endl;
+    }
+
+    return 0;
+}
