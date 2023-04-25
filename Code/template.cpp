@@ -9087,3 +9087,100 @@ int main()
 
     return 0;
 }
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 11, P = 9973;
+
+int m;
+struct Matrix
+{
+    int a[N][N];
+    Matrix()
+    {
+        memset(a, 0, sizeof a);
+    }
+};
+
+Matrix operator* (Matrix a, Matrix b)
+{
+    Matrix c;
+    for (int i = 1; i <= m; i ++ )
+        for (int j = 1; j <= m; j ++ )
+            for (int k = 1; k <= m; k ++ )
+                c.a[i][j] = (c.a[i][j] + a.a[i][k] * b.a[k][j]) % P;
+    return c;
+}
+
+int qmi(Matrix a, int b)
+{
+    Matrix res;
+    for (int i = 1; i <= m; i ++ ) res.a[i][i] = 1;
+    while (b)
+    {
+        if (b & 1) res = res * a;
+        a = a * a;
+        b >>= 1;
+    }
+
+    int sum = 0;
+    for (int i = 1; i <= m; i ++ ) sum += res.a[i][i];
+    return sum % P;
+}
+
+int phi(int n)
+{
+    int res = n;
+    for (int i = 2; i * i <= n; i ++ )
+        if (n % i == 0)
+        {
+            res = res / i * (i - 1);
+            while (n % i == 0) n /= i;
+        }
+    if (n > 1) res = res / n * (n - 1);
+    return res % P;
+}
+
+int inv(int n)
+{
+    n %= P;
+    for (int i = 1; i < P; i ++ )
+        if (i * n % P == 1)
+            return i;
+    return -1;
+}
+
+int main()
+{
+    int T;
+    cin >> T;
+    while (T -- )
+    {
+        int n, k;
+        cin >> n >> m >> k;
+        Matrix tr;
+        for (int i = 1; i <= m; i ++ )
+            for (int j = 1; j <= m; j ++ )
+                tr.a[i][j] = 1;
+        while (k -- )
+        {
+            int x, y;
+            cin >> x >> y;
+            tr.a[x][y] = tr.a[y][x] = 0;
+        }
+        int res = 0;
+        for (int i = 1; i * i <= n; i ++ )
+            if (n % i == 0)
+            {
+                res = (res + qmi(tr, i) * phi(n / i)) % P;
+                if (i != n / i)
+                    res = (res + qmi(tr, n / i) * phi(i)) % P;
+            }
+        cout << res * inv(n) % P << endl;
+    }
+    return 0;
+}
