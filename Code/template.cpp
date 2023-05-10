@@ -9625,3 +9625,84 @@ int main()
     printf("%lld\n", res);
     return 0;
 }
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long LL;
+const int N = 1000010, INF = 1e9;
+
+int n;
+int h[N], e[N], rm[N], w[N], ne[N], idx;
+LL f1[N][2], f2[N][2];
+bool st[N], ins[N];
+LL ans;
+
+inline void add(int a, int b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx ++ ;
+}
+
+void dfs_f(int u, int ap, LL f[][2])
+{
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        if (rm[i]) continue;
+        int j = e[i];
+        dfs_f(j, ap, f);
+        f[u][0] += max(f[j][0], f[j][1]);
+    }
+
+    f[u][1] = -INF;
+    if (u != ap)
+    {
+        f[u][1] = w[u];
+        for (int i = h[u]; ~i; i = ne[i])
+        {
+            if (rm[i]) continue;
+            int j = e[i];
+            f[u][1] += f[j][0];
+        }
+    }
+}
+
+void dfs_c(int u, int from)
+{
+    st[u] = ins[u] = true;
+    for (int i = h[u]; ~i; i = ne[i])
+    {
+        int j = e[i];
+        if (!st[j]) dfs_c(j, i);
+        else if (ins[j])
+        {
+            rm[i] = 1;
+            dfs_f(j, -1, f1);
+            dfs_f(j, u, f2);
+            ans += max(f1[j][0], f2[j][1]);
+        }
+    }
+
+    ins[u] = false;
+}
+
+int main()
+{
+    scanf("%d", &n);
+    memset(h, -1, sizeof h);
+    for (int i = 1; i <= n; i ++ )
+    {
+        int a, b;
+        scanf("%d%d", &a, &b);
+        add(b, i);
+        w[i] = a;
+    }
+    for (int i = 1; i <= n; i ++ )
+        if (!st[i])
+            dfs_c(i, -1);
+
+    printf("%lld\n", ans);
+    return 0;
+}
