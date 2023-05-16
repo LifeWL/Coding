@@ -10203,3 +10203,88 @@ int main()
 
     return 0;
 }
+
+//四边形不等式
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+typedef long double LD;
+const int N = 100010;
+
+int n, L, P;
+LD f[N];
+char str[N][31];
+int s[N], opt[N];
+struct Node
+{
+    int j, l, r;
+}q[N];
+int hh, tt;
+
+LD val(int j, int i)
+{
+    LD res = 1, a = abs(s[i] - s[j] + i - j - 1 - L);
+    for (int i = 0; i < P; i ++ ) res *= a;
+    return res + f[j];
+}
+
+void insert(int i)
+{
+    int pos = n + 1;
+    while (hh <= tt && val(q[tt].j, q[tt].l) >= val(i, q[tt].l)) pos = q[tt -- ].l;
+    if (hh <= tt && val(q[tt].j, q[tt].r) >= val(i, q[tt].r))
+    {
+        int l = q[tt].l, r = q[tt].r;
+        while (l < r)
+        {
+            int mid = l + r >> 1;
+            if (val(q[tt].j, mid) >= val(i, mid)) r = mid;
+            else l = mid + 1;
+        }
+        q[tt].r = r - 1;
+        pos = r;
+    }
+    if (pos != n + 1) q[ ++ tt] = {i, pos, n};
+}
+
+int main()
+{
+    int T;
+    scanf("%d", &T);
+    while (T -- )
+    {
+        scanf("%d%d%d", &n, &L, &P);
+        for (int i = n; i >= 1; i -- ) scanf("%s", str[i]);
+        for (int i = 1; i <= n; i ++ ) s[i] = s[i - 1] + strlen(str[i]);
+        hh = tt = 0;
+        q[0] = {0, 1, n};
+        for (int i = 1; i <= n; i ++ )
+        {
+            f[i] = val(q[hh].j, i), opt[i] = q[hh].j;
+            if (q[hh].r == i) hh ++ ;
+            q[hh].l = i + 1;
+            insert(i);
+        }
+
+        if (f[n] > 1e18) puts("Too hard to arrange");
+        else
+        {
+            printf("%lld\n", (long long)f[n]);
+            for (int i = n; i; i = opt[i])
+            {
+                for (int j = i; j > opt[i]; j -- )
+                {
+                    printf("%s", str[j]);
+                    if (j != opt[i] + 1) printf(" ");
+                }
+                puts("");
+            }
+        }
+        puts("--------------------");
+    }
+
+    return 0;
+}
