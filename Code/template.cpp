@@ -10483,6 +10483,7 @@ int main()
     return 0;
 }
 
+//凸包
 #include <iostream>
 #include <cstring>
 #include <algorithm>
@@ -10531,7 +10532,6 @@ double andrew()
     {
         while (top >= 2 && area(q[stk[top - 1]], q[stk[top]], q[i]) <= 0)
         {
-            // 凸包边界上的点即使被从栈中删掉，也不能删掉used上的标记
             if (area(q[stk[top - 1]], q[stk[top]], q[i]) < 0)
                 used[stk[top -- ]] = false;
             else top -- ;
@@ -10560,6 +10560,105 @@ int main()
     for (int i = 0; i < n; i ++ ) scanf("%lf%lf", &q[i].x, &q[i].y);
     double res = andrew();
     printf("%.2lf\n", res);
+
+    return 0;
+}
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <cmath>
+
+#define x first
+#define y second
+
+using namespace std;
+
+typedef pair<double, double> PDD;
+const int N = 40010;
+const double pi = acos(-1);
+
+int n, cnt;
+PDD q[N];
+int stk[N], top;
+bool used[N];
+
+PDD rotate(PDD a, double b)
+{
+    return {a.x * cos(b) + a.y * sin(b), -a.x * sin(b) + a.y * cos(b)};
+}
+
+PDD operator- (PDD a, PDD b)
+{
+    return {a.x - b.x, a.y - b.y};
+}
+
+double cross(PDD a, PDD b)
+{
+    return a.x * b.y - a.y * b.x;
+}
+
+double area(PDD a, PDD b, PDD c)
+{
+    return cross(b - a, c - a);
+}
+
+double get_dist(PDD a, PDD b)
+{
+    double dx = a.x - b.x;
+    double dy = a.y - b.y;
+    return sqrt(dx * dx + dy * dy);
+}
+
+double andrew()
+{
+    sort(q, q + cnt);
+    for (int i = 0; i < cnt; i ++ )
+    {
+        while (top >= 2 && area(q[stk[top - 1]], q[stk[top]], q[i]) <= 0)
+        {
+            if (area(q[stk[top - 1]], q[stk[top]], q[i]) < 0)
+                used[stk[top -- ]] = false;
+            else top -- ;
+        }
+        stk[ ++ top] = i;
+        used[i] = true;
+    }
+    used[0] = 0;
+    for (int i = cnt - 1; i >= 0; i -- )
+    {
+        if (used[i]) continue;
+        while (top >= 2 && area(q[stk[top - 1]], q[stk[top]], q[i]) <= 0)
+            top -- ;
+        stk[ ++ top] = i;
+    }
+
+    double res = 0;
+    for (int i = 2; i <= top; i ++ )
+        res += get_dist(q[stk[i - 1]], q[stk[i]]);
+    return res;
+}
+
+int main()
+{
+    scanf("%d", &n);
+    double a, b, r;
+    scanf("%lf%lf%lf", &a, &b, &r);
+    a = a / 2 - r, b = b / 2 - r;
+    int dx[] = {1, 1, -1, -1}, dy[] = {1, -1, -1, 1};
+    while (n -- )
+    {
+        double x, y, z;
+        scanf("%lf%lf%lf", &x, &y, &z);
+        for (int i = 0; i < 4; i ++ )
+        {
+            auto t = rotate({dx[i] * b, dy[i] * a}, -z);
+            q[cnt ++ ] = {x + t.x, y + t.y};
+        }
+    }
+
+    double res = andrew();
+    printf("%.2lf\n", res + 2 * pi * r);
 
     return 0;
 }
